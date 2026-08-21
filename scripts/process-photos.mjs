@@ -16,11 +16,16 @@ const jobs = [
   // Hero and CTA sit under a heavy dark gradient, so a soft source reads as
   // atmosphere rather than a low-quality photo. Slight blur hides upscale
   // artefacts that the scrim would otherwise pick out as mush.
-  // Manual crops: 'attention' picked the roofline over the truck. Trimming the
-  // top keeps the vehicle and the driveway, which is what the shot is about.
-  { src: 'unnamed (1).jpg', out: 'hero.jpg',       w: 2000, h: 1250, blur: 1.0, crop: { top: 58, height: 174 } },
+  // HERO: currently stock, because the owner's own shots are 278px thumbnails
+  // and will not carry a full-bleed hero. Swap back to hero-real.jpg the moment
+  // full-resolution originals exist — see stock/LICENSE.md.
+  { src: 'hero-source.jpg', dir: 'stock', out: 'hero.jpg', w: 2000, h: 1250,
+    flop: true, grade: true, pos: 'centre' },
+
+  // The owner's real driveway shot, kept processed and ready to swap in.
+  { src: 'unnamed (1).jpg', out: 'hero-real.jpg',  w: 2000, h: 1250, blur: 1.0, crop: { top: 58, height: 174 } },
   { src: 'unnamed (2).jpg', out: 'cta.jpg',        w: 2000, h: 900,  blur: 1.0, crop: { top: 96, height: 125 } },
-  { src: 'unnamed (1).jpg', out: 'og-default.jpg', w: 1200, h: 630,  blur: 0.5, crop: { top: 58, height: 146 } },
+  { src: 'hero-source.jpg', dir: 'stock', out: 'og-default.jpg', w: 1200, h: 630, flop: true, grade: true },
 
   // A tight detail shot survives upscaling far better than a wide scene.
   { src: 'unnamed (7).jpg', out: 'about.jpg',      w: 1200, h: 900,  sharpen: true, pos: 'attention' },
@@ -40,7 +45,7 @@ await mkdir('public/images', { recursive: true });
 
 let total = 0;
 for (const j of jobs) {
-  let p = sharp(`${IN}/${j.src}`);
+  let p = sharp(`${j.dir ?? IN}/${j.src}`);
   if (j.crop) {
     const meta = await p.metadata();
     p = p.extract({ left: 0, top: j.crop.top, width: meta.width, height: j.crop.height });
@@ -52,6 +57,11 @@ for (const j of jobs) {
       kernel: 'lanczos3',
       withoutEnlargement: false,
     });
+  // Mirror so the vehicle sits opposite the headline rather than under it.
+  if (j.flop) p = p.flop();
+  // Pull a bright daylight stock frame toward the site's dark, cool palette so
+  // it sits under the hero scrim instead of fighting it.
+  if (j.grade) p = p.modulate({ brightness: 0.8, saturation: 0.76 }).tint('#dce9f2');
   if (j.blur) p = p.blur(j.blur);
   if (j.sharpen) p = p.sharpen({ sigma: 0.7 });
 

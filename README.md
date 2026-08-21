@@ -59,13 +59,23 @@ hero.
 
 Consequences, all currently worked around rather than solved:
 
-- The hero is upscaled about 7x and deliberately blurred, with a heavier scrim,
-  so softness reads as atmosphere instead of a bad photo.
-- Below 760px the hero image is blurred further still, because at phone pixel
-  density the source visibly breaks into blocks. See the `max-width: 759px`
-  block in `src/components/Hero.astro`.
+- **The hero is stock**, because 278px will not carry a full-bleed image at any
+  quality. See `stock/LICENSE.md`. The owner's own driveway shot is processed
+  and waiting at `public/images/hero-real.jpg`.
 - Gallery output is capped at 480x640. It looks fine, because those tiles are
   displayed small — this is the one slot the thumbnails genuinely suit.
+- `about.jpg` and `cta.jpg` are still the owner's photos, upscaled. They sit
+  behind text or at smaller sizes, so they hold up.
+
+**The stock hero is a stopgap, not a decision.** A generic stock car is the
+weakest possible hero for a local trade business — the entire argument this site
+makes is that a real person turns up in your driveway, and stock photography
+works against that. Swap it the moment a real full-resolution photo exists:
+
+```js
+// scripts/process-photos.mjs — restore the owner's photo as the hero
+{ src: 'unnamed (1).jpg', out: 'hero.jpg', w: 2000, h: 1250, crop: { top: 58, height: 174 } },
+```
 
 ### Getting the full-resolution originals
 
@@ -92,7 +102,8 @@ re-run. No other changes needed.
 
 | File | Ratio | Currently |
 |---|---|---|
-| `hero.jpg` | 16:10 | Ram 1500, hood up, snowy driveway |
+| `hero.jpg` | 16:10 | **Stock** — roadside breakdown (see `stock/LICENSE.md`) |
+| `hero-real.jpg` | 16:10 | Owner's Ram 1500 driveway shot, ready to swap back |
 | `og-default.jpg` | 1200x630 | Crop of the hero |
 | `about.jpg` | 4:3 | Rotor and hub detail |
 | `cta.jpg` | ~20:9 | Ram 2500 in the snow |
