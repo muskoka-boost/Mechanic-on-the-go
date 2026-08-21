@@ -1,5 +1,5 @@
 ---
-import { business, hasEmail } from '../data/business';
+import { business, hasEmail, hasLicence } from '../data/business';
 import { locationsByGroup } from '../data/locations';
 import { services } from '../data/services';
 
@@ -12,8 +12,8 @@ const year = new Date().getFullYear();
       <div class="ftr__brand">
         <span class="ftr__name">{business.name}</span>
         <p class="ftr__tag">
-          Mobile automotive service across Orillia, Simcoe County, Muskoka
-          and Georgian Bay. The shop comes to you.
+          {hasLicence ? 'Licensed mobile' : 'Mobile'} automotive service across
+          Orillia, Simcoe County, Muskoka and Georgian Bay. The shop comes to you.
         </p>
         <a href={business.phoneHref} class="btn btn--primary">Call {business.phone}</a>
         <p class="ftr__hours">

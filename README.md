@@ -13,16 +13,17 @@ npm run preview  # serve the built site
 
 ---
 
-## ⚠️ Before this goes live
+## Before this goes live
 
-The site is complete and builds clean, but a handful of business facts are
-**placeholders**. They all live in one file: `src/data/business.ts`.
+The site is complete and builds clean. The phone number and licence are
+confirmed; the remaining business facts are still **placeholders**. They all
+live in one file: `src/data/business.ts`.
 
 | Field | Status | Notes |
 |---|---|---|
-| `phone` / `phoneHref` / `smsHref` | **BLOCKER** | Currently `705-000-0000`. Every CTA on the site is a tap-to-call. Nothing works until this is real. |
+| `phone` / `phoneHref` / `smsHref` | ✅ Set | `416-897-8653`. Drives every tap-to-call and text link on all 32 pages, plus the `telephone` field in the schema. |
 | `hours` | Needs confirming | Guessed as Mon–Fri 8–6, Sat 9–4, Sun by appointment. Drives both the visible hours and the opening-hours schema. |
-| `licence` | Empty on purpose | Set to e.g. `310S Licensed Automotive Technician` **only if true**. Left blank, the credentials block does not render. Do not publish a credential that is not held. |
+| `licence` | ✅ Set | `Licensed Automotive Technician`, confirmed by the owner. Kept general on purpose — change it to the specific ticket (e.g. `310S Licensed Automotive Technician`) only if that is the licence actually held. Clearing this string hides the credentials block and reverts the footer wording automatically. |
 | `serviceRadiusKm` | Needs confirming | Currently 100 km. Shown on the hero and referenced in copy. |
 | `siteUrl` | Needs confirming | Also update `astro.config.mjs` and `public/robots.txt` to match. |
 | `email` | Empty | Leave empty to hide every email CTA. |
@@ -115,12 +116,14 @@ and the schema all follow automatically.
 
 ### After launch
 
-1. Set the real phone number — it is the only true blocker.
-2. Confirm the Google Business Profile is a **service-area** profile, not a
+1. Confirm the Google Business Profile is a **service-area** profile, not a
    storefront, and that its service areas match `locations.ts`.
-3. Add the site URL to the Google Business Profile.
-4. Verify the domain in Google Search Console and submit the sitemap.
-5. Test the structured data at <https://search.google.com/test/rich-results>.
+2. Add the site URL to the Google Business Profile.
+3. Verify the domain in Google Search Console and submit the sitemap.
+4. Test the structured data at <https://search.google.com/test/rich-results>.
+5. Make sure the phone number on the site matches the Google Business Profile
+   exactly. Mismatched NAP (name, address, phone) across listings is one of the
+   most common causes of weak local ranking.
 
 ## Deploying
 

@@ -68,7 +68,13 @@ const values = [
           {hasLicence && (
             <>
               <h2>Credentials</h2>
-              <p>{business.licence}</p>
+              <p>
+                {business.name} is a {business.licence.toLowerCase()}. That
+                matters more with mobile work than it does in a shop, because
+                there is no service manager between you and the person doing the
+                job &mdash; the tech who diagnoses your vehicle is the tech who
+                repairs it and the tech who stands behind it.
+              </p>
             </>
           )}
         </div>

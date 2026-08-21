@@ -11,10 +11,9 @@ export const business = {
   legalName: 'Mobile Mechanic On The Go', // PLACEHOLDER: confirm registered trade name
   tagline: 'The shop comes to you.',
 
-  // PLACEHOLDER — the entire site is tap-to-call. Must be real before launch.
-  phone: '705-000-0000',
-  phoneHref: 'tel:+17050000000',
-  smsHref: 'sms:+17050000000',
+  phone: '416-897-8653',
+  phoneHref: 'tel:+14168978653',
+  smsHref: 'sms:+14168978653',
   email: '', // PLACEHOLDER: leave empty to hide email CTAs entirely
 
   baseCity: 'Orillia',
@@ -34,7 +33,10 @@ export const business = {
   afterHours: true, // PLACEHOLDER: confirm emergency/after-hours availability
 
   yearsInBusiness: null as number | null, // PLACEHOLDER: set a number to display it
-  licence: '' as string, // PLACEHOLDER: e.g. '310S Licensed Automotive Technician'
+  // Confirmed by the owner. Kept deliberately general — upgrade this string to
+  // the specific ticket (e.g. '310S Licensed Automotive Technician') only if
+  // that is the licence actually held.
+  licence: 'Licensed Automotive Technician' as string,
 
   // Left null on purpose. Never publish a star rating you cannot verify.
   rating: null as number | null,
