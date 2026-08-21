@@ -18,12 +18,14 @@ const steps = [
 ];
 
 const gallery = [
-  { src: '/images/work-3.jpg', alt: 'Front-end repair underway on a pickup truck in a residential driveway, wheel removed and safety stands in place' },
-  { src: '/images/work-6.jpg', alt: 'Freshly fitted brake rotor and hub on a vehicle, caliper bracket visible alongside' },
-  { src: '/images/work-1.jpg', alt: 'Newly installed wheel hub and bearing assembly on a vehicle knuckle' },
-  { src: '/images/work-5.jpg', alt: 'Roadside wheel service on a car at the curb with tools laid out' },
-  { src: '/images/work-7.jpg', alt: 'Rear drum brake assembly opened up for inspection and service' },
-  { src: '/images/work-4.jpg', alt: 'Underside view of a vehicle front suspension supported on a jack stand during repair' },
+  { src: '/images/work-1.jpg', alt: 'Ram 1500 pickup on a snowy residential driveway with the hood up, front wheel removed and ramps and a floor jack laid out' },
+  { src: '/images/work-3.jpg', alt: 'Newly fitted wheel hub and bearing assembly on a vehicle knuckle, brake dust shield behind it' },
+  { src: '/images/work-5.jpg', alt: 'Curbside wheel service on a Honda Civic, spare wheel and hand tools laid out on the road' },
+  { src: '/images/work-4.jpg', alt: 'Close-up of a new brake rotor and hub fitted to a vehicle with the caliper bracket alongside' },
+  { src: '/images/work-2.jpg', alt: 'Silver Honda Civic raised on a floor jack in a driveway with the front wheel removed' },
+  { src: '/images/work-7.jpg', alt: 'Underside view of a vehicle front suspension showing the control arm, coil spring and brake rotor' },
+  { src: '/images/work-6.jpg', alt: 'Rear brake rotor and caliper bracket exposed during a brake service' },
+  { src: '/images/work-8.jpg', alt: 'Ram 2500 pickup being serviced outdoors in the snow during winter' },
 ];
 
 const abs = (path: string) => absUrl(Astro.site, path);
@@ -255,6 +257,6 @@ const schema = [
     .split { grid-template-columns: 1.05fr 0.95fr; gap: 66px; }
     .sechead { grid-template-columns: 1fr 1fr; gap: 40px; }
     .steps { grid-template-columns: repeat(4, 1fr); }
-    .gallery { grid-template-columns: repeat(6, 1fr); }
+    .gallery { grid-template-columns: repeat(4, 1fr); }
   }
 </style>

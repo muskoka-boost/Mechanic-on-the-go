@@ -41,33 +41,62 @@ grep -rn "PLACEHOLDER" src/ astro.config.mjs
 
 ## Photos
 
-`public/images/` currently holds generated placeholders — dark blue panels
-labelled with what belongs there. **Replace each file with the real photo, keeping
-the same filename and roughly the same aspect ratio.** Nothing in the code needs
-to change.
+`public/images/` is generated from the originals in `photos-inbox/` by:
 
-| File | Ratio | What goes here |
+```bash
+node scripts/process-photos.mjs
+```
+
+That script owns the crop, resize and compression for every slot. To change
+which photo goes where, edit the `jobs` array in it and re-run — do not edit
+files in `public/images/` by hand, they get overwritten.
+
+### ⚠️ Current photos are low resolution
+
+The uploaded photos are Google Business Profile **thumbnails**, not originals.
+Every one is **278px** on its long edge. The site needs roughly 2000px for the
+hero.
+
+Consequences, all currently worked around rather than solved:
+
+- The hero is upscaled about 7x and deliberately blurred, with a heavier scrim,
+  so softness reads as atmosphere instead of a bad photo.
+- Below 760px the hero image is blurred further still, because at phone pixel
+  density the source visibly breaks into blocks. See the `max-width: 759px`
+  block in `src/components/Hero.astro`.
+- Gallery output is capped at 480x640. It looks fine, because those tiles are
+  displayed small — this is the one slot the thumbnails genuinely suit.
+
+### Getting the full-resolution originals
+
+Best to worst:
+
+1. **Straight off the phone that took them.** The originals will be 3000-4000px.
+   This is the real fix.
+2. **Google Photos**, if the phone backs up there — download the original size,
+   not a share link.
+3. **Resize the Google URL.** Google serves these from `lh3.googleusercontent.com`
+   with the size baked into the URL as a suffix like `=w278-h278-k-no`. Open the
+   photo on the Business Profile, copy the image address, and replace that
+   suffix with `=s0` for the original, or `=w2048` for something large:
+
+   ```
+   ...=w278-h278-k-no   ->   ...=s0
+   ```
+
+Once better originals are in `photos-inbox/`, raise the output sizes in
+`scripts/process-photos.mjs`, drop the mobile blur block from `Hero.astro`, and
+re-run. No other changes needed.
+
+### Slot reference
+
+| File | Ratio | Currently |
 |---|---|---|
-| `hero.jpg` | 16:10, ~2000px wide | The Ram 1500 in the driveway, hood up, wheel off, stands out. Strongest shot available. |
-| `og-default.jpg` | 1200×630 | Social share card. Can be a crop of the hero. |
-| `about.jpg` | 4:3 | Owner at work on a vehicle. |
-| `cta.jpg` | ~20:9 wide | Wide roadside or service-van shot. |
-| `work-1.jpg` | 3:4 | Hub assembly on the knuckle. |
-| `work-2.jpg` | 3:4 | Ram 2500, winter service. |
-| `work-3.jpg` | 3:4 | Ram 1500 driveway, wheel off. |
-| `work-4.jpg` | 3:4 | Front suspension underside. |
-| `work-5.jpg` | 3:4 | Civic roadside wheel service. |
-| `work-6.jpg` | 3:4 | New rotor with blue hub. |
-| `work-7.jpg` | 3:4 | Rear drum brake assembly. |
-| `work-8.jpg` | 3:4 | Civic on the floor jack. |
-
-Regenerate placeholders at any time with `node scripts/make-placeholders.mjs`
-(this **overwrites** `public/images/`, so run it only before the real photos land).
-
-**Resolution matters.** The hero needs roughly 2000px on the long edge. Photos
-pasted into a chat window arrive at a few hundred pixels and will look soft
-stretched across a full-width hero — use the originals off the phone or the
-Google Business Profile.
+| `hero.jpg` | 16:10 | Ram 1500, hood up, snowy driveway |
+| `og-default.jpg` | 1200x630 | Crop of the hero |
+| `about.jpg` | 4:3 | Rotor and hub detail |
+| `cta.jpg` | ~20:9 | Ram 2500 in the snow |
+| `work-1` … `work-8.jpg` | 3:4 | The eight job photos |
 
 ### Logo
 

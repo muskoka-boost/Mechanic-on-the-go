@@ -173,6 +173,21 @@ import { withBase } from '../lib/paths';
     z-index: 0;
   }
 
+  /* The source is a 278px thumbnail. On a phone at 2-3x pixel density it
+     breaks into visible blocks, so below tablet it is blurred and darkened
+     into atmosphere rather than shown as a photograph. Remove this block once
+     full-resolution originals are in place. */
+  @media (max-width: 759px) {
+    .hero__media img { filter: blur(3px) saturate(0.85); transform: scale(1.06); }
+    .hero__scrim { backdrop-filter: none; }
+    .hero__media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 13, 19, 0.42);
+    }
+  }
+
   @media (min-width: 760px) {
     .hero__proof { grid-template-columns: repeat(4, 1fr); }
   }
