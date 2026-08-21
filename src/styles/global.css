@@ -1,0 +1,217 @@
+/* ============================================================
+   Mobile Mechanic On The Go — design system
+   Dark industrial: cold steel base, safety-orange accent.
+   Palette derived from the owner's own job photos — winter
+   light, bare metal, and the orange of the tool trays.
+   ============================================================ */
+
+:root {
+  /* Navy-steel base, sampled from the tyre and wordmark in the logo */
+  --steel-950: #070d13;
+  --steel-900: #0d151d;
+  --steel-850: #121c26;
+  --steel-800: #17222e;
+  --steel-700: #22303e;
+  --steel-600: #35485a;
+  --steel-500: #526779;
+  --steel-400: #7f92a4;
+  --steel-300: #b0bcc9;
+  --steel-200: #d4dce4;
+  --steel-100: #edf2f6;
+  --white: #ffffff;
+
+  /* Brand azure, sampled from the motion streaks and "On The Go" wordmark */
+  --brand: #29a3e0;
+  --brand-light: #58bdf0;
+  --brand-deep: #1179ad;
+  --brand-glow: rgba(41, 163, 224, 0.16);
+
+  --ok: #35c07a;
+
+  --bg: var(--steel-950);
+  --surface: var(--steel-900);
+  --surface-raised: var(--steel-850);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.17);
+  --text: var(--steel-100);
+  --text-muted: var(--steel-400);
+  --text-dim: var(--steel-500);
+
+  --font-display: 'Barlow Condensed', 'Oswald', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --wrap: 1200px;
+  --wrap-narrow: 760px;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.72);
+  --shadow-md: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, video { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: clamp(2.6rem, 7vw, 5rem); }
+h2 { font-size: clamp(2rem, 4.4vw, 3.1rem); }
+h3 { font-size: clamp(1.25rem, 2.2vw, 1.6rem); letter-spacing: 0; }
+
+p { margin: 0 0 1.15em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--brand-light); text-decoration: none; }
+a:hover { color: var(--brand); }
+
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- layout ---------- */
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 22px; }
+.wrap-narrow { max-width: var(--wrap-narrow); }
+
+.section { padding-block: clamp(64px, 9vw, 118px); }
+.section--tight { padding-block: clamp(48px, 6vw, 80px); }
+.section--surface { background: var(--surface); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 16px;
+}
+.eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 2px;
+  background: var(--brand);
+}
+
+.lede {
+  font-size: clamp(1.08rem, 1.9vw, 1.3rem);
+  color: var(--steel-300);
+  line-height: 1.6;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 17px 30px;
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: #03151f;
+  box-shadow: 0 6px 24px -6px var(--brand-glow);
+}
+.btn--primary:hover {
+  background: var(--brand-light);
+  color: #03151f;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px rgba(41, 163, 224, 0.45);
+}
+
+.btn--ghost {
+  border-color: var(--border-strong);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+.btn--ghost:hover {
+  border-color: var(--brand);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.btn--lg { padding: 21px 38px; font-size: 1.32rem; }
+.btn--block { width: 100%; }
+
+/* ---------- cards ---------- */
+
+.card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.card:hover { border-color: var(--border-strong); }
+
+.grid { display: grid; gap: 22px; }
+.grid--2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.grid--4 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+
+/* ---------- utility ---------- */
+
+.center { text-align: center; }
+.stack > * + * { margin-top: 18px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.hairline {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

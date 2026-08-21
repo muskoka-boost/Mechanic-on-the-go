@@ -1,0 +1,257 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { services } from '../data/services';
+import { locationsByGroup, locations } from '../data/locations';
+import { business } from '../data/business';
+
+const featured = services.slice(0, 6);
+
+const steps = [
+  { n: '01', t: 'Call and describe it', d: 'Tell us the noise, the light, the smell — whatever it is doing. Most problems can be narrowed down over the phone before anyone drives anywhere.' },
+  { n: '02', t: 'We come to the vehicle', d: 'Your driveway, your workplace parking lot, or the shoulder where it quit. We arrive with the tools, the diagnostic gear and the common parts already on board.' },
+  { n: '03', t: 'You approve the price', d: 'You get told what failed, what it costs and what happens if it waits. Nothing gets replaced until you say go.' },
+  { n: '04', t: 'Fixed where it sits', d: 'The repair happens on site. No tow bill, no shuttle ride, no three days without a vehicle.' },
+];
+
+const gallery = [
+  { src: '/images/work-3.jpg', alt: 'Front-end repair underway on a pickup truck in a residential driveway, wheel removed and safety stands in place' },
+  { src: '/images/work-6.jpg', alt: 'Freshly fitted brake rotor and hub on a vehicle, caliper bracket visible alongside' },
+  { src: '/images/work-1.jpg', alt: 'Newly installed wheel hub and bearing assembly on a vehicle knuckle' },
+  { src: '/images/work-5.jpg', alt: 'Roadside wheel service on a car at the curb with tools laid out' },
+  { src: '/images/work-7.jpg', alt: 'Rear drum brake assembly opened up for inspection and service' },
+  { src: '/images/work-4.jpg', alt: 'Underside view of a vehicle front suspension supported on a jack stand during repair' },
+];
+
+const schema = [
+  {
+    '@type': 'WebSite',
+    '@id': `${business.siteUrl}/#website`,
+    url: business.siteUrl,
+    name: business.name,
+    publisher: { '@id': `${business.siteUrl}/#business` },
+  },
+];
+---
+
+<Layout
+  title="Mobile Mechanic Orillia | We Come To You — Mobile Mechanic On The Go"
+  description="Mobile mechanic serving Orillia, Barrie, Muskoka and Georgian Bay. Diagnostics, brakes, batteries, suspension and no-start repairs at your home, work or roadside. Call for same-day service."
+  canonical="/"
+  schema={schema}
+>
+  <Hero />
+
+  <!-- ============ WHY MOBILE ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <p class="eyebrow">Why mobile</p>
+          <h2>A shop bay is not the fix.<br />It is just the waiting.</h2>
+          <p class="lede">
+            Most of what goes wrong with a vehicle does not need a hoist. It needs
+            the right diagnosis, the right part and someone who knows what they are
+            doing. That can happen in your driveway just as well as it can in a
+            shop &mdash; and without the tow, the drop-off, the ride home and the
+            three days your car spends parked out back waiting for a bay.
+          </p>
+          <ul class="ticks">
+            <li>No tow bill on most breakdowns &mdash; the repair comes to the vehicle</li>
+            <li>You keep your day; the work happens while you are at home or at work</li>
+            <li>You see the old part, the new part and exactly what was done</li>
+            <li>Pricing agreed before a single tool comes out</li>
+          </ul>
+        </div>
+        <figure class="split__img">
+          <img src="/images/about.jpg" alt="Mobile mechanic servicing a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section section--surface" id="services">
+    <div class="wrap">
+      <header class="sechead">
+        <div>
+          <p class="eyebrow">What we fix</p>
+          <h2>Mobile automotive service</h2>
+        </div>
+        <p class="lede sechead__text">
+          The jobs that genuinely belong in a driveway &mdash; done properly, with
+          torque specs, jack stands and the same standard you would expect from a
+          shop floor.
+        </p>
+      </header>
+
+      <div class="grid grid--3">
+        {featured.map((s) => (
+          <a href={`/services/${s.slug}/`} class="card svc">
+            <span class="svc__icon"><Icon name={s.icon} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.short}</p>
+            <span class="svc__more">Read more &rarr;</span>
+          </a>
+        ))}
+      </div>
+
+      <p class="center" style="margin-top: 40px;">
+        <a href="/services/" class="btn btn--ghost">See all {services.length} services</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="section">
+    <div class="wrap">
+      <header class="sechead">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>Four steps, no surprises</h2>
+        </div>
+      </header>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="step">
+            <span class="step__n">{s.n}</span>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="section section--surface">
+    <div class="wrap">
+      <header class="sechead">
+        <div>
+          <p class="eyebrow">On the job</p>
+          <h2>Real work, real driveways</h2>
+        </div>
+        <p class="lede sechead__text">
+          Not stock photos of a spotless showroom. This is what the work actually
+          looks like &mdash; in Ontario, in winter, wherever the vehicle happens to be.
+        </p>
+      </header>
+      <div class="gallery">
+        {gallery.map((g) => (
+          <figure class="gallery__item">
+            <img src={g.src} alt={g.alt} width="1200" height="1600" loading="lazy" decoding="async" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AREAS ============ -->
+  <section class="section">
+    <div class="wrap">
+      <header class="sechead">
+        <div>
+          <p class="eyebrow">Where we go</p>
+          <h2>Serving {locations.length} communities</h2>
+        </div>
+        <p class="lede sechead__text">
+          Based in Orillia, covering roughly {business.serviceRadiusKm} km in every
+          direction &mdash; from Barrie up through Muskoka and out to Georgian Bay.
+        </p>
+      </header>
+
+      <div class="grid grid--4 areas">
+        {locationsByGroup.map((group) => (
+          <div class="card area">
+            <h3>{group.group}</h3>
+            <ul>
+              {group.items.map((l) => (
+                <li><a href={`/service-areas/${l.slug}/`}>{l.name}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>
+
+<style>
+  .split { display: grid; gap: 44px; align-items: center; }
+  .split__img img { border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); }
+
+  .ticks { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .ticks li { position: relative; padding-left: 34px; color: var(--steel-300); }
+  .ticks li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 18px; height: 10px;
+    border-left: 2.5px solid var(--brand);
+    border-bottom: 2.5px solid var(--brand);
+    transform: rotate(-45deg);
+  }
+
+  .sechead { display: grid; gap: 18px; margin-bottom: 44px; align-items: end; }
+  .sechead h2 { margin-bottom: 0; }
+  .sechead__text { max-width: 52ch; }
+
+  .svc { display: flex; flex-direction: column; color: var(--text); }
+  .svc:hover { color: var(--text); transform: translateY(-3px); border-color: rgba(41, 163, 224,0.4); }
+  .svc__icon {
+    display: grid; place-items: center;
+    width: 52px; height: 52px;
+    border-radius: var(--radius);
+    color: var(--brand);
+    background: var(--brand-glow);
+    border: 1px solid rgba(41, 163, 224,0.28);
+    margin-bottom: 20px;
+  }
+  .svc h3 { margin-bottom: 10px; }
+  .svc p { color: var(--text-muted); font-size: 0.98rem; }
+  .svc__more {
+    margin-top: auto;
+    padding-top: 18px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    color: var(--brand);
+  }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .step { background: var(--surface-raised); padding: 32px 28px; }
+  .step__n {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--steel-700);
+    margin-bottom: 14px;
+  }
+  .step h3 { margin-bottom: 10px; }
+  .step p { color: var(--text-muted); font-size: 0.97rem; margin: 0; }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .gallery__item { margin: 0; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+  .gallery__item img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; transition: transform 0.5s ease; }
+  .gallery__item:hover img { transform: scale(1.04); }
+
+  .area h3 { font-size: 1.1rem; color: var(--brand); letter-spacing: 0.05em; margin-bottom: 16px; }
+  .area ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  .area a { color: var(--steel-300); font-size: 0.97rem; }
+  .area a:hover { color: var(--white); }
+
+  @media (min-width: 860px) {
+    .split { grid-template-columns: 1.05fr 0.95fr; gap: 66px; }
+    .sechead { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .steps { grid-template-columns: repeat(4, 1fr); }
+    .gallery { grid-template-columns: repeat(6, 1fr); }
+  }
+</style>

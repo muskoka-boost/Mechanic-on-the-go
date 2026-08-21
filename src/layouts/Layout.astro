@@ -1,0 +1,131 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CallBar from '../components/CallBar.astro';
+import { business } from '../data/business';
+import { locations } from '../data/locations';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Path only, e.g. "/service-areas/orillia/" */
+  canonical?: string;
+  /** Extra JSON-LD graph nodes for this page */
+  schema?: Record<string, unknown>[];
+  ogImage?: string;
+}
+
+const { title, description, canonical, schema = [], ogImage = '/images/og-default.jpg' } = Astro.props;
+
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, business.siteUrl).href;
+
+const openingHours = business.hours
+  .filter((h) => h.open !== h.close)
+  .map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.schema,
+    opens: h.open,
+    closes: h.close,
+  }));
+
+const localBusiness = {
+  '@type': 'AutoRepair',
+  '@id': `${business.siteUrl}/#business`,
+  name: business.name,
+  description,
+  url: business.siteUrl,
+  telephone: business.phone,
+  priceRange: '$$',
+  image: new URL('/images/og-default.jpg', business.siteUrl).href,
+  // Service-area business: no street address is published on purpose.
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: business.baseCity,
+    addressRegion: business.baseRegion,
+    addressCountry: business.baseCountry,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 44.6087, longitude: -79.4207 },
+  areaServed: locations.map((l) => ({
+    '@type': 'City',
+    name: l.name,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: l.name,
+      addressRegion: 'ON',
+      addressCountry: 'CA',
+    },
+  })),
+  serviceArea: {
+    '@type': 'GeoCircle',
+    geoMidpoint: { '@type': 'GeoCoordinates', latitude: 44.6087, longitude: -79.4207 },
+    geoRadius: business.serviceRadiusKm * 1000,
+  },
+  openingHoursSpecification: openingHours,
+};
+
+const graph = [localBusiness, ...schema];
+---
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, business.siteUrl).href} />
+    <meta property="og:locale" content="en_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#070d13" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="geo.region" content="CA-ON" />
+    <meta name="geo.placename" content={business.baseCity} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })} />
+  </head>
+  <body>
+    <a href="#main" class="skip">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <CallBar />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 200;
+    background: var(--brand);
+    color: #03151f;
+    padding: 14px 22px;
+    font-weight: 700;
+  }
+  .skip:focus { left: 0; }
+  main { padding-bottom: 76px; }
+  @media (min-width: 861px) {
+    main { padding-bottom: 0; }
+  }
+</style>

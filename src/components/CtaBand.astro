@@ -1,0 +1,38 @@
+---
+import { business } from '../data/business';
+export interface Props { heading?: string; text?: string; }
+const {
+  heading = 'Broken down, or just out of time?',
+  text = 'Call and describe what the vehicle is doing. You will get a straight answer on whether it can be fixed where it sits, roughly what it will cost, and how soon we can be there.',
+} = Astro.props;
+---
+
+<section class="cta">
+  <div class="cta__bg" aria-hidden="true">
+    <img src="/images/cta.jpg" alt="" width="2000" height="900" loading="lazy" decoding="async" />
+  </div>
+  <div class="wrap cta__inner">
+    <h2>{heading}</h2>
+    <p class="lede">{text}</p>
+    <div class="cta__btns">
+      <a href={business.phoneHref} class="btn btn--primary btn--lg">Call {business.phone}</a>
+      <a href={business.smsHref} class="btn btn--ghost btn--lg">Send a Text</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { position: relative; padding-block: clamp(70px, 9vw, 112px); overflow: hidden; isolation: isolate; }
+  .cta__bg { position: absolute; inset: 0; z-index: -1; }
+  .cta__bg img { width: 100%; height: 100%; object-fit: cover; }
+  .cta__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(95deg, rgba(7, 13, 19,0.97) 12%, rgba(7, 13, 19,0.78) 62%, rgba(7, 13, 19,0.6) 100%);
+  }
+  .cta__inner { max-width: 720px; }
+  .cta h2 { margin-bottom: 18px; }
+  .cta .lede { margin-bottom: 34px; }
+  .cta__btns { display: flex; flex-wrap: wrap; gap: 14px; }
+</style>

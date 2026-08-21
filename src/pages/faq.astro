@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import PageHead from '../components/PageHead.astro';
+import { business } from '../data/business';
+
+const faqs = [
+  {
+    q: 'What exactly is a mobile mechanic?',
+    a: 'A fully equipped service vehicle that comes to wherever your car is, instead of your car going to a shop. Diagnostic equipment, tools and the common wear parts are all carried on board, so most repairs are completed in a single visit at your home, your workplace or the roadside.',
+  },
+  {
+    q: 'Where can you actually do the work?',
+    a: 'Any reasonably flat, safe spot with enough room to work around the vehicle. A driveway or a parking space is ideal. Roadside work is fine when the shoulder is safe. For apartment or condo lots, check with your property manager first — most are fine with it, but it is better to ask than to be moved on mid-job.',
+  },
+  {
+    q: 'Do you charge a call-out fee?',
+    a: 'You will be given the full price — labour, parts and any travel — before any work begins, so there is nothing to discover on the invoice. Call and describe the job and you will get that number up front.',
+  },
+  {
+    q: 'Can you fix my car if it will not start at all?',
+    a: 'Usually, yes. Most no-starts come down to a battery, starter, alternator, fuse or relay, and all of those are replaceable on site. That is exactly the situation where mobile service saves the most money, because it removes the tow entirely. If it turns out to be something that genuinely needs a shop, you will be told before you have spent anything substantial.',
+  },
+  {
+    q: 'What happens if it rains or snows?',
+    a: 'Ontario weather is part of the job and most work carries on regardless. Some jobs need dry conditions to be done properly — brake work in heavy rain being the obvious one. If the weather will compromise the quality of the repair, the appointment gets moved rather than rushed.',
+  },
+  {
+    q: 'Do you supply the parts, or should I?',
+    a: 'Parts are normally supplied as part of the job, which keeps quality and warranty in one place. If you have already bought parts you would rather use, say so when you call — it is usually workable, but the warranty situation is different and worth talking through first.',
+  },
+  {
+    q: 'How far will you travel?',
+    a: `Roughly ${business.serviceRadiusKm} km from Orillia, which covers Simcoe County, Muskoka and the Georgian Bay shoreline. Communities closer to Orillia can often be seen same-day; the outer edges of that radius are best booked a day or two ahead. If you are not sure, call and ask.`,
+  },
+  {
+    q: 'Is there anything you cannot do?',
+    a: 'Yes, and it is worth being straight about it. Mounting and balancing tyres onto rims, MTO safety certificates, wheel alignments, transmission rebuilds and engine replacement all need equipment or licensing that no mobile setup carries. If your vehicle needs one of those, you will be told and pointed somewhere that can help.',
+  },
+  {
+    q: 'How do I book?',
+    a: `Call or text ${business.phone}. Describe what the vehicle is doing — the noise, the warning light, when it happens — and you will get an honest read on whether it can be handled on site, roughly what it will cost, and how soon someone can be there.`,
+  },
+];
+
+const schema = [
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: 'FAQ', item: business.siteUrl + '/faq/' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="FAQ | Mobile Mechanic On The Go — Orillia & Simcoe County"
+  description="Common questions about mobile mechanic service in Orillia and area: where the work happens, call-out fees, no-start repairs, travel radius and what cannot be done on site."
+  canonical="/faq/"
+  schema={schema}
+>
+  <PageHead
+    eyebrow="FAQ"
+    title="Questions worth asking"
+    lede="If yours is not here, call and ask. You will get a straight answer, including when the answer is that you need somewhere else."
+  />
+
+  <section class="section">
+    <div class="wrap wrap-narrow">
+      <div class="faqs">
+        {faqs.map((f, i) => (
+          <details class="faq" open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>
+
+<style>
+  .faqs { display: flex; flex-direction: column; gap: 12px; }
+  .faq {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: 0 24px;
+  }
+  .faq[open] { border-color: var(--border-strong); }
+  .faq summary {
+    cursor: pointer;
+    padding: 22px 0;
+    font-weight: 600;
+    font-size: 1.06rem;
+    color: var(--steel-100);
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+';
+    font-family: var(--font-display);
+    font-size: 1.75rem; line-height: 1;
+    color: var(--brand); flex-shrink: 0;
+  }
+  .faq[open] summary::after { content: '\2212'; }
+  .faq p { color: var(--text-muted); padding-bottom: 24px; margin: 0; }
+</style>

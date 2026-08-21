@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import { business, hasEmail } from '../data/business';
+import { locationsByGroup } from '../data/locations';
+
+const schema = [{
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: business.siteUrl + '/contact/' },
+  ],
+}];
+---
+
+<Layout
+  title="Contact | Mobile Mechanic On The Go — Orillia, Ontario"
+  description={`Call or text ${business.phone} to book a mobile mechanic in Orillia, Barrie, Muskoka or Georgian Bay. Describe the problem and get an honest estimate before any work starts.`}
+  canonical="/contact/"
+  schema={schema}
+>
+  <PageHead
+    eyebrow="Contact"
+    title="Call or text, and describe it"
+    lede="The fastest way to get this sorted is a phone call. Tell us the noise, the warning light, or exactly what happened when it quit — most problems can be narrowed down before anyone drives anywhere."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cgrid">
+        <div class="card ccard ccard--main">
+          <h2>Phone &amp; text</h2>
+          <a href={business.phoneHref} class="bignum">{business.phone}</a>
+          <p>
+            Calling gets the quickest answer. If you cannot talk, text a short
+            description of the problem and where the vehicle is &mdash; that is
+            usually enough to get started.
+          </p>
+          <div class="ccard__btns">
+            <a href={business.phoneHref} class="btn btn--primary btn--lg">Call Now</a>
+            <a href={business.smsHref} class="btn btn--ghost btn--lg">Send a Text</a>
+          </div>
+          {hasEmail && (
+            <p class="cemail">Email: <a href={`mailto:${business.email}`}>{business.email}</a></p>
+          )}
+        </div>
+
+        <div class="card ccard">
+          <h2>Hours</h2>
+          <ul class="hours">
+            {business.hours.map((h) => (
+              <li><span>{h.days}</span><strong>{h.display}</strong></li>
+            ))}
+          </ul>
+          {business.afterHours && (
+            <p class="note">
+              Breakdowns do not keep office hours. If you are stranded outside the
+              times above, call anyway &mdash; you will get an honest answer about
+              what can be done tonight.
+            </p>
+          )}
+        </div>
+
+        <div class="card ccard">
+          <h2>What to have ready</h2>
+          <ul class="ready">
+            <li>Year, make and model of the vehicle</li>
+            <li>What it is doing &mdash; noise, light, smell, or simply will not start</li>
+            <li>When it started and whether it is getting worse</li>
+            <li>Where the vehicle is right now, and whether it can be moved</li>
+          </ul>
+        </div>
+
+        <div class="card ccard ccard--wide">
+          <h2>Service area</h2>
+          <p class="areaintro">
+            Based in {business.baseCity}, covering roughly {business.serviceRadiusKm} km
+            in every direction. Not sure if you are in range? Call and ask.
+          </p>
+          <div class="areas">
+            {locationsByGroup.map((group) => (
+              <div>
+                <h3>{group.group}</h3>
+                <ul>
+                  {group.items.map((l) => (
+                    <li><a href={`/service-areas/${l.slug}/`}>{l.name}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .cgrid { display: grid; gap: 20px; }
+  .ccard h2 { font-size: 1.3rem; margin-bottom: 16px; }
+  .ccard p { color: var(--text-muted); font-size: 0.97rem; }
+
+  .bignum {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 5.6vw, 3.1rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--brand);
+    margin-bottom: 18px;
+    line-height: 1;
+  }
+  .ccard__btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .cemail { margin-top: 20px; }
+
+  .hours { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .hours li { display: flex; justify-content: space-between; gap: 16px; color: var(--text-muted); font-size: 0.97rem; }
+  .hours strong { color: var(--steel-200); font-weight: 600; }
+  .note {
+    margin-top: 22px; padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-size: 0.92rem;
+  }
+
+  .ready { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .ready li { position: relative; padding-left: 30px; color: var(--text-muted); font-size: 0.97rem; }
+  .ready li::before {
+    content: ''; position: absolute; left: 0; top: 7px;
+    width: 16px; height: 9px;
+    border-left: 2.4px solid var(--brand);
+    border-bottom: 2.4px solid var(--brand);
+    transform: rotate(-45deg);
+  }
+
+  .areaintro { margin-bottom: 26px; max-width: 60ch; }
+  .areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; }
+  .areas h3 { font-size: 0.92rem; letter-spacing: 0.14em; color: var(--brand); margin-bottom: 14px; }
+  .areas ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  .areas a { color: var(--steel-300); font-size: 0.95rem; }
+  .areas a:hover { color: var(--white); }
+
+  @media (min-width: 900px) {
+    .cgrid { grid-template-columns: repeat(2, 1fr); }
+    .ccard--main { grid-column: span 2; }
+    .ccard--wide { grid-column: span 2; }
+  }
+</style>

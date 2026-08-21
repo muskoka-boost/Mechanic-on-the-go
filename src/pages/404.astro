@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { business } from '../data/business';
+---
+<Layout title="Page Not Found | Mobile Mechanic On The Go" description="That page could not be found." canonical="/404/">
+  <section class="section nf">
+    <div class="wrap center">
+      <p class="eyebrow" style="justify-content:center;">404</p>
+      <h1>This one is off the road</h1>
+      <p class="lede" style="margin-inline:auto;max-width:48ch;">
+        The page you were after does not exist. The vehicle repairs, however,
+        very much do.
+      </p>
+      <div class="nf__btns">
+        <a href="/" class="btn btn--primary btn--lg">Back to Home</a>
+        <a href={business.phoneHref} class="btn btn--ghost btn--lg">Call {business.phone}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+<style>
+  .nf { padding-block: clamp(90px, 16vh, 180px); }
+  .nf__btns { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 34px; }
+</style>

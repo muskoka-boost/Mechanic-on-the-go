@@ -1,0 +1,268 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { locations, getLocation } from '../../data/locations';
+import { services } from '../../data/services';
+import { business } from '../../data/business';
+
+export function getStaticPaths() {
+  return locations.map((location) => ({
+    params: { slug: location.slug },
+    props: { location },
+  }));
+}
+
+const { location } = Astro.props;
+const nearby = location.nearby.map(getLocation).filter(Boolean);
+const url = `${business.siteUrl}/service-areas/${location.slug}/`;
+
+const faqs = [
+  {
+    q: `Do you actually come out to ${location.name}?`,
+    a: `Yes. ${location.name} is ${location.driveTime === 'Home base' ? 'home base — it is the shortest call of the day' : `inside the regular service area, ${location.driveTime.toLowerCase()}`}. Call and describe the problem and you will get a realistic time.`,
+  },
+  {
+    q: `Where does the repair happen in ${location.name}?`,
+    a: 'Wherever the vehicle already is — your driveway, a workplace parking lot, an apartment lot with permission, or the shoulder of the road if that is where it quit. All that is needed is enough flat, safe space to work around the vehicle.',
+  },
+  {
+    q: 'How much does it cost to have you come out?',
+    a: 'You get a price before any work starts, and nothing is replaced until you agree to it. Call, describe the symptom, and you will get an honest estimate along with a straight answer on whether it can be fixed on site at all.',
+  },
+  {
+    q: 'What if it turns out to need a shop?',
+    a: 'Then you will be told that plainly. Some jobs genuinely need a hoist, an alignment rack or a licensed inspection station. It is better to say so than to sell a repair that will not hold.',
+  },
+];
+
+const schema = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Service Areas', item: business.siteUrl + '/service-areas/' },
+      { '@type': 'ListItem', position: 3, name: location.name, item: url },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@type': 'Service',
+    name: `Mobile Mechanic in ${location.name}`,
+    serviceType: 'Mobile automotive repair',
+    url,
+    provider: { '@id': `${business.siteUrl}/#business` },
+    areaServed: {
+      '@type': 'City',
+      name: location.name,
+      address: { '@type': 'PostalAddress', addressLocality: location.name, addressRegion: 'ON', addressCountry: 'CA' },
+      geo: { '@type': 'GeoCoordinates', latitude: location.lat, longitude: location.lng },
+    },
+  },
+];
+---
+
+<Layout
+  title={`Mobile Mechanic ${location.name} | We Come To You — Mobile Mechanic On The Go`}
+  description={`Mobile mechanic serving ${location.name}, Ontario. Brakes, diagnostics, batteries, no-starts and suspension repaired at your home, workplace or roadside. ${location.driveTime}. Call ${business.phone}.`}
+  canonical={`/service-areas/${location.slug}/`}
+  schema={schema}
+>
+  <section class="lhead">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span>
+        <a href="/service-areas/">Service Areas</a><span aria-hidden="true">/</span>
+        <span aria-current="page">{location.name}</span>
+      </nav>
+      <p class="eyebrow">{location.group}</p>
+      <h1>Mobile Mechanic<br /><span class="accent">{location.name}</span></h1>
+      <p class="lede lhead__lede">{location.lead}</p>
+      <div class="lhead__cta">
+        <a href={business.phoneHref} class="btn btn--primary btn--lg">Call {business.phone}</a>
+        <a href={business.smsHref} class="btn btn--ghost btn--lg">Send a Text</a>
+      </div>
+      <p class="lhead__meta"><strong>{location.driveTime}</strong></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cols">
+        <article class="body">
+          <h2>Mobile automotive service in {location.name}</h2>
+          {location.body.map((p) => <p>{p}</p>)}
+
+          <h2>What we see most in {location.name}</h2>
+          <ul class="ticks">
+            {location.commonJobs.map((j) => <li>{j}</li>)}
+          </ul>
+
+          <h2>Services available in {location.name}</h2>
+          <div class="svcgrid">
+            {services.map((s) => (
+              <a href={`/services/${s.slug}/`} class="svcmini">
+                <span class="svcmini__icon"><Icon name={s.icon} size={20} /></span>
+                {s.title}
+              </a>
+            ))}
+          </div>
+
+          <h2>Common questions</h2>
+          <div class="faqs">
+            {faqs.map((f) => (
+              <details class="faq">
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </article>
+
+        <aside class="side">
+          <div class="card side__card">
+            <h3>Serving {location.name}</h3>
+            <p>{location.driveTime}</p>
+            <a href={business.phoneHref} class="btn btn--primary btn--block">Call {business.phone}</a>
+            <a href={business.smsHref} class="btn btn--ghost btn--block" style="margin-top:10px;">Send a Text</a>
+            <hr class="hairline" style="margin: 22px 0;" />
+            <h4>Areas covered</h4>
+            <ul class="side__tags">
+              {location.landmarks.map((m) => <li>{m}</li>)}
+            </ul>
+          </div>
+
+          {nearby.length > 0 && (
+            <div class="card side__card">
+              <h3>Nearby areas</h3>
+              <ul class="side__list">
+                {nearby.map((n) => (
+                  <li><a href={`/service-areas/${n!.slug}/`}>{n!.name}</a></li>
+                ))}
+                <li><a href="/service-areas/">All areas &rarr;</a></li>
+              </ul>
+            </div>
+          )}
+
+          <div class="card side__card">
+            <h3>Hours</h3>
+            <ul class="side__hours">
+              {business.hours.map((h) => (
+                <li><span>{h.days}</span><strong>{h.display}</strong></li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading={`Need a mechanic in ${location.name}?`}
+    text="Call and describe what the vehicle is doing. You will get a straight answer on whether it can be fixed where it sits, roughly what it will cost, and how soon we can be there."
+  />
+</Layout>
+
+<style>
+  .lhead {
+    padding-block: clamp(40px, 6vw, 68px) clamp(46px, 6vw, 72px);
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(1000px 440px at 5% -20%, rgba(41, 163, 224,0.14), transparent 70%), var(--bg);
+  }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.9rem; color: var(--text-dim); margin-bottom: 26px; }
+  .crumbs a { color: var(--text-muted); }
+  .crumbs a:hover { color: var(--white); }
+  .lhead h1 { margin-bottom: 20px; }
+  .accent { color: var(--brand); }
+  .lhead__lede { max-width: 58ch; margin-bottom: 32px; }
+  .lhead__cta { display: flex; flex-wrap: wrap; gap: 13px; margin-bottom: 24px; }
+  .lhead__meta { margin: 0; font-size: 0.94rem; color: var(--text-dim); }
+  .lhead__meta strong { color: var(--steel-300); font-weight: 600; }
+
+  .cols { display: grid; gap: 44px; align-items: start; }
+  .body h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-top: 48px; margin-bottom: 16px; }
+  .body h2:first-of-type { margin-top: 0; }
+  .body p { color: var(--steel-300); }
+
+  .ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .ticks li { position: relative; padding-left: 34px; color: var(--steel-300); }
+  .ticks li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 18px; height: 10px;
+    border-left: 2.5px solid var(--brand);
+    border-bottom: 2.5px solid var(--brand);
+    transform: rotate(-45deg);
+  }
+
+  .svcgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .svcmini {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--steel-200);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .svcmini:hover { border-color: var(--brand); color: var(--white); }
+  .svcmini__icon { color: var(--brand); display: grid; place-items: center; flex-shrink: 0; }
+
+  .faqs { display: flex; flex-direction: column; gap: 10px; }
+  .faq {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 0 20px;
+  }
+  .faq summary {
+    cursor: pointer;
+    padding: 18px 0;
+    font-weight: 600;
+    color: var(--steel-100);
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+';
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--brand);
+    flex-shrink: 0;
+  }
+  .faq[open] summary::after { content: '\2212'; }
+  .faq p { color: var(--text-muted); padding-bottom: 20px; margin: 0; font-size: 0.97rem; }
+
+  .side { display: flex; flex-direction: column; gap: 20px; }
+  .side__card h3 { font-size: 1.14rem; margin-bottom: 10px; }
+  .side__card > p { color: var(--text-muted); font-size: 0.94rem; margin-bottom: 20px; }
+  .side__card h4 { font-size: 0.86rem; letter-spacing: 0.15em; color: var(--brand); margin-bottom: 12px; }
+  .side__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .side__tags li {
+    font-size: 0.86rem;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-muted);
+  }
+  .side__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+  .side__list a { color: var(--steel-300); font-size: 0.96rem; }
+  .side__list a:hover { color: var(--white); }
+  .side__hours { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; font-size: 0.92rem; }
+  .side__hours li { display: flex; justify-content: space-between; gap: 14px; color: var(--text-muted); }
+  .side__hours strong { color: var(--steel-200); font-weight: 600; }
+
+  @media (min-width: 900px) {
+    .cols { grid-template-columns: minmax(0, 1fr) 330px; gap: 62px; }
+    .side { position: sticky; top: 98px; }
+  }
+</style>

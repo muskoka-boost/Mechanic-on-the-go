@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import PageHead from '../components/PageHead.astro';
+import { business, hasLicence } from '../data/business';
+
+const schema = [{
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
+    { '@type': 'ListItem', position: 2, name: 'About', item: business.siteUrl + '/about/' },
+  ],
+}];
+
+const values = [
+  { t: 'You see the old part', d: 'Every part that comes off gets shown to you, and the reason it failed gets explained in plain language. No mystery invoices.' },
+  { t: 'The price comes first', d: 'You are told what it costs before anything is touched. If the job turns out to be bigger once it is opened up, work stops and you get a call — not a surprise at the end.' },
+  { t: 'Straight answers about limits', d: 'Some repairs genuinely need a hoist, an alignment rack or a licensed inspection station. When that is the case you will be told, not sold something else.' },
+  { t: 'The driveway is left clean', d: 'Old parts, packaging, used oil and filters all leave with the van and go for proper recycling. Nothing is left behind.' },
+];
+---
+
+<Layout
+  title="About | Mobile Mechanic On The Go — Orillia, Ontario"
+  description="Mobile Mechanic On The Go is an Orillia-based mobile automotive service covering Simcoe County, Muskoka and Georgian Bay. Repairs done at your home, workplace or roadside."
+  canonical="/about/"
+  schema={schema}
+>
+  <PageHead
+    eyebrow="About"
+    title="The shop comes to you"
+    lede="Mobile Mechanic On The Go is an Orillia-based mobile automotive service. The idea is simple: most of what goes wrong with a vehicle can be fixed properly where the vehicle already sits, so there is no good reason to add a tow bill and three days of waiting to the cost of the repair."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="body">
+          <h2>Why mobile</h2>
+          <p>
+            A traditional shop has to move your vehicle into a bay, which means
+            you have to get it there, get yourself home, and get back again when
+            it is done. For a brake job or a battery, that logistics chain costs
+            you more time than the repair itself takes.
+          </p>
+          <p>
+            Working out of a fully equipped service vehicle removes all of that.
+            The diagnostic gear, the tools and the common wear parts are already
+            on board. Your vehicle stays where it is, you carry on with your day,
+            and the work gets done to the same standard it would get on a shop
+            floor &mdash; correct torque specs, proper jack stands, no shortcuts.
+          </p>
+
+          <h2>Who this suits</h2>
+          <p>
+            Commuters who cannot afford to lose a vehicle for two days. Cottage
+            owners whose car has not started since October. Trades and farm
+            operators for whom a truck sitting at a shop is a lost day of work.
+            Anyone stranded on the shoulder of Highway 11 wondering whether they
+            really need a tow.
+          </p>
+          <p>
+            In practice, most no-starts do not need a tow at all. A battery, a
+            starter, an alternator, a fuse or a relay can all be replaced on site,
+            and that is the majority of the calls that come in.
+          </p>
+
+          {hasLicence && (
+            <>
+              <h2>Credentials</h2>
+              <p>{business.licence}</p>
+            </>
+          )}
+        </div>
+
+        <figure class="split__img">
+          <img src="/images/about.jpg" alt="Mobile mechanic working on a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
+        </figure>
+      </div>
+
+      <h2 class="valhead">How we work</h2>
+      <div class="grid grid--2">
+        {values.map((v) => (
+          <div class="card">
+            <h3>{v.t}</h3>
+            <p>{v.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>
+
+<style>
+  .split { display: grid; gap: 44px; align-items: start; margin-bottom: 70px; }
+  .split__img img { border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); }
+  .body h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-top: 42px; margin-bottom: 16px; }
+  .body h2:first-child { margin-top: 0; }
+  .body p { color: var(--steel-300); }
+  .valhead { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 26px; }
+  .card h3 { margin-bottom: 10px; font-size: 1.14rem; }
+  .card p { color: var(--text-muted); margin: 0; font-size: 0.97rem; }
+  @media (min-width: 900px) {
+    .split { grid-template-columns: 1.1fr 0.9fr; gap: 60px; }
+  }
+</style>
