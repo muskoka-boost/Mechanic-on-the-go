@@ -2,6 +2,7 @@
 import { business, hasEmail, hasLicence } from '../data/business';
 import { locationsByGroup } from '../data/locations';
 import { services } from '../data/services';
+import { withBase } from '../lib/paths';
 
 const year = new Date().getFullYear();
 ---
@@ -27,7 +28,7 @@ const year = new Date().getFullYear();
         <h4>Services</h4>
         <ul>
           {services.map((s) => (
-            <li><a href={`/services/${s.slug}/`}>{s.title}</a></li>
+            <li><a href={withBase(`/services/${s.slug}/`)}>{s.title}</a></li>
           ))}
         </ul>
       </div>
@@ -37,7 +38,7 @@ const year = new Date().getFullYear();
           <h4>{group.group}</h4>
           <ul>
             {group.items.map((l) => (
-              <li><a href={`/service-areas/${l.slug}/`}>{l.name}</a></li>
+              <li><a href={withBase(`/service-areas/${l.slug}/`)}>{l.name}</a></li>
             ))}
           </ul>
         </div>
@@ -49,9 +50,9 @@ const year = new Date().getFullYear();
     <div class="ftr__bottom">
       <p>&copy; {year} {business.legalName}. All rights reserved.</p>
       <p class="ftr__links">
-        <a href="/service-areas/">Service Areas</a>
-        <a href="/faq/">FAQ</a>
-        <a href="/contact/">Contact</a>
+        <a href={withBase('/service-areas/')}>Service Areas</a>
+        <a href={withBase('/faq/')}>FAQ</a>
+        <a href={withBase('/contact/')}>Contact</a>
         {hasEmail && <a href={`mailto:${business.email}`}>{business.email}</a>}
       </p>
     </div>

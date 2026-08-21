@@ -5,6 +5,7 @@ import Icon from '../../components/Icon.astro';
 import { locations, getLocation } from '../../data/locations';
 import { services } from '../../data/services';
 import { business } from '../../data/business';
+import { withBase, absUrl } from '../../lib/paths';
 
 export function getStaticPaths() {
   return locations.map((location) => ({
@@ -15,7 +16,9 @@ export function getStaticPaths() {
 
 const { location } = Astro.props;
 const nearby = location.nearby.map(getLocation).filter(Boolean);
-const url = `${business.siteUrl}/service-areas/${location.slug}/`;
+const abs = (path: string) => absUrl(Astro.site, path);
+
+const url = abs(`/service-areas/${location.slug}/`);
 
 const faqs = [
   {
@@ -40,8 +43,8 @@ const schema = [
   {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
-      { '@type': 'ListItem', position: 2, name: 'Service Areas', item: business.siteUrl + '/service-areas/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+      { '@type': 'ListItem', position: 2, name: 'Service Areas', item: abs('/service-areas/') },
       { '@type': 'ListItem', position: 3, name: location.name, item: url },
     ],
   },
@@ -58,7 +61,7 @@ const schema = [
     name: `Mobile Mechanic in ${location.name}`,
     serviceType: 'Mobile automotive repair',
     url,
-    provider: { '@id': `${business.siteUrl}/#business` },
+    provider: { '@id': `${abs('/')}#business` },
     areaServed: {
       '@type': 'City',
       name: location.name,
@@ -78,8 +81,8 @@ const schema = [
   <section class="lhead">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a><span aria-hidden="true">/</span>
-        <a href="/service-areas/">Service Areas</a><span aria-hidden="true">/</span>
+        <a href={withBase('/')}>Home</a><span aria-hidden="true">/</span>
+        <a href={withBase('/service-areas/')}>Service Areas</a><span aria-hidden="true">/</span>
         <span aria-current="page">{location.name}</span>
       </nav>
       <p class="eyebrow">{location.group}</p>
@@ -108,7 +111,7 @@ const schema = [
           <h2>Services available in {location.name}</h2>
           <div class="svcgrid">
             {services.map((s) => (
-              <a href={`/services/${s.slug}/`} class="svcmini">
+              <a href={withBase(`/services/${s.slug}/`)} class="svcmini">
                 <span class="svcmini__icon"><Icon name={s.icon} size={20} /></span>
                 {s.title}
               </a>
@@ -144,9 +147,9 @@ const schema = [
               <h3>Nearby areas</h3>
               <ul class="side__list">
                 {nearby.map((n) => (
-                  <li><a href={`/service-areas/${n!.slug}/`}>{n!.name}</a></li>
+                  <li><a href={withBase(`/service-areas/${n!.slug}/`)}>{n!.name}</a></li>
                 ))}
-                <li><a href="/service-areas/">All areas &rarr;</a></li>
+                <li><a href={withBase('/service-areas/')}>All areas &rarr;</a></li>
               </ul>
             </div>
           )}

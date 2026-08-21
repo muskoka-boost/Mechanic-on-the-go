@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PageHead from '../components/PageHead.astro';
 import { business } from '../data/business';
+import { absUrl } from '../lib/paths';
 
 const faqs = [
   {
@@ -43,6 +44,8 @@ const faqs = [
   },
 ];
 
+const abs = (path: string) => absUrl(Astro.site, path);
+
 const schema = [
   {
     '@type': 'FAQPage',
@@ -55,8 +58,8 @@ const schema = [
   {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
-      { '@type': 'ListItem', position: 2, name: 'FAQ', item: business.siteUrl + '/faq/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+      { '@type': 'ListItem', position: 2, name: 'FAQ', item: abs('/faq/') },
     ],
   },
 ];

@@ -1,10 +1,11 @@
 ---
 import { business } from '../data/business';
+import { withBase } from '../lib/paths';
 ---
 
 <section class="hero">
   <div class="hero__media">
-    <img src="/images/hero.jpg" alt="" width="2000" height="1250" fetchpriority="high" decoding="async" />
+    <img src={withBase('/images/hero.jpg')} alt="" width="2000" height="1250" fetchpriority="high" decoding="async" />
     <div class="hero__scrim"></div>
     <div class="hero__grain" aria-hidden="true"></div>
   </div>
@@ -34,7 +35,7 @@ import { business } from '../data/business';
         </svg>
         {business.phone}
       </a>
-      <a href="/services/" class="btn btn--ghost btn--lg">What We Fix</a>
+      <a href={withBase('/services/')} class="btn btn--ghost btn--lg">What We Fix</a>
     </div>
 
     <ul class="hero__proof">

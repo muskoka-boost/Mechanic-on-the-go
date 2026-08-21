@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { business } from '../data/business';
+import { withBase } from '../lib/paths';
 ---
 <Layout title="Page Not Found | Mobile Mechanic On The Go" description="That page could not be found." canonical="/404/">
   <section class="section nf">
@@ -12,7 +13,7 @@ import { business } from '../data/business';
         very much do.
       </p>
       <div class="nf__btns">
-        <a href="/" class="btn btn--primary btn--lg">Back to Home</a>
+        <a href={withBase('/')} class="btn btn--primary btn--lg">Back to Home</a>
         <a href={business.phoneHref} class="btn btn--ghost btn--lg">Call {business.phone}</a>
       </div>
     </div>

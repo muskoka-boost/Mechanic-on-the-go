@@ -3,12 +3,15 @@ import Layout from '../layouts/Layout.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PageHead from '../components/PageHead.astro';
 import { business, hasLicence } from '../data/business';
+import { withBase, absUrl } from '../lib/paths';
+
+const abs = (path: string) => absUrl(Astro.site, path);
 
 const schema = [{
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
-    { '@type': 'ListItem', position: 2, name: 'About', item: business.siteUrl + '/about/' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: 'About', item: abs('/about/') },
   ],
 }];
 
@@ -80,7 +83,7 @@ const values = [
         </div>
 
         <figure class="split__img">
-          <img src="/images/about.jpg" alt="Mobile mechanic working on a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
+          <img src={withBase('/images/about.jpg')} alt="Mobile mechanic working on a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
         </figure>
       </div>
 

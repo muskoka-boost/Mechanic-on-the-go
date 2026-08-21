@@ -5,6 +5,7 @@ import Icon from '../../components/Icon.astro';
 import { services } from '../../data/services';
 import { locations } from '../../data/locations';
 import { business } from '../../data/business';
+import { withBase, absUrl } from '../../lib/paths';
 
 export function getStaticPaths() {
   return services.map((service) => ({
@@ -16,7 +17,9 @@ export function getStaticPaths() {
 const { service } = Astro.props;
 const others = services.filter((s) => s.slug !== service.slug).slice(0, 4);
 const topAreas = locations.slice(0, 8);
-const url = `${business.siteUrl}/services/${service.slug}/`;
+const abs = (path: string) => absUrl(Astro.site, path);
+
+const url = abs(`/services/${service.slug}/`);
 
 const schema = [
   {
@@ -25,14 +28,14 @@ const schema = [
     serviceType: service.title,
     description: service.short,
     url,
-    provider: { '@id': `${business.siteUrl}/#business` },
+    provider: { '@id': `${abs('/')}#business` },
     areaServed: locations.map((l) => ({ '@type': 'City', name: l.name })),
   },
   {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: business.siteUrl + '/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: business.siteUrl + '/services/' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: abs('/services/') },
       { '@type': 'ListItem', position: 3, name: service.title, item: url },
     ],
   },
@@ -48,8 +51,8 @@ const schema = [
   <section class="shead">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a><span aria-hidden="true">/</span>
-        <a href="/services/">Services</a><span aria-hidden="true">/</span>
+        <a href={withBase('/')}>Home</a><span aria-hidden="true">/</span>
+        <a href={withBase('/services/')}>Services</a><span aria-hidden="true">/</span>
         <span aria-current="page">{service.title}</span>
       </nav>
       <span class="shead__icon"><Icon name={service.icon} size={30} /></span>
@@ -89,9 +92,9 @@ const schema = [
           </p>
           <ul class="arealinks">
             {topAreas.map((l) => (
-              <li><a href={`/service-areas/${l.slug}/`}>{l.name}</a></li>
+              <li><a href={withBase(`/service-areas/${l.slug}/`)}>{l.name}</a></li>
             ))}
-            <li><a href="/service-areas/">All areas &rarr;</a></li>
+            <li><a href={withBase('/service-areas/')}>All areas &rarr;</a></li>
           </ul>
         </article>
 
@@ -114,9 +117,9 @@ const schema = [
             <h3>Other services</h3>
             <ul class="side__list">
               {others.map((s) => (
-                <li><a href={`/services/${s.slug}/`}>{s.title}</a></li>
+                <li><a href={withBase(`/services/${s.slug}/`)}>{s.title}</a></li>
               ))}
-              <li><a href="/services/">All services &rarr;</a></li>
+              <li><a href={withBase('/services/')}>All services &rarr;</a></li>
             </ul>
           </div>
         </aside>

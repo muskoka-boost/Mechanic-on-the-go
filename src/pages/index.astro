@@ -6,6 +6,7 @@ import Icon from '../components/Icon.astro';
 import { services } from '../data/services';
 import { locationsByGroup, locations } from '../data/locations';
 import { business } from '../data/business';
+import { withBase, absUrl } from '../lib/paths';
 
 const featured = services.slice(0, 6);
 
@@ -25,13 +26,15 @@ const gallery = [
   { src: '/images/work-4.jpg', alt: 'Underside view of a vehicle front suspension supported on a jack stand during repair' },
 ];
 
+const abs = (path: string) => absUrl(Astro.site, path);
+
 const schema = [
   {
     '@type': 'WebSite',
-    '@id': `${business.siteUrl}/#website`,
-    url: business.siteUrl,
+    '@id': `${abs('/')}#website`,
+    url: abs('/'),
     name: business.name,
-    publisher: { '@id': `${business.siteUrl}/#business` },
+    publisher: { '@id': `${abs('/')}#business` },
   },
 ];
 ---
@@ -66,7 +69,7 @@ const schema = [
           </ul>
         </div>
         <figure class="split__img">
-          <img src="/images/about.jpg" alt="Mobile mechanic servicing a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
+          <img src={withBase('/images/about.jpg')} alt="Mobile mechanic servicing a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
         </figure>
       </div>
     </div>
@@ -89,7 +92,7 @@ const schema = [
 
       <div class="grid grid--3">
         {featured.map((s) => (
-          <a href={`/services/${s.slug}/`} class="card svc">
+          <a href={withBase(`/services/${s.slug}/`)} class="card svc">
             <span class="svc__icon"><Icon name={s.icon} /></span>
             <h3>{s.title}</h3>
             <p>{s.short}</p>
@@ -99,7 +102,7 @@ const schema = [
       </div>
 
       <p class="center" style="margin-top: 40px;">
-        <a href="/services/" class="btn btn--ghost">See all {services.length} services</a>
+        <a href={withBase('/services/')} class="btn btn--ghost">See all {services.length} services</a>
       </p>
     </div>
   </section>
@@ -141,7 +144,7 @@ const schema = [
       <div class="gallery">
         {gallery.map((g) => (
           <figure class="gallery__item">
-            <img src={g.src} alt={g.alt} width="1200" height="1600" loading="lazy" decoding="async" />
+            <img src={withBase(g.src)} alt={g.alt} width="1200" height="1600" loading="lazy" decoding="async" />
           </figure>
         ))}
       </div>
@@ -168,7 +171,7 @@ const schema = [
             <h3>{group.group}</h3>
             <ul>
               {group.items.map((l) => (
-                <li><a href={`/service-areas/${l.slug}/`}>{l.name}</a></li>
+                <li><a href={withBase(`/service-areas/${l.slug}/`)}>{l.name}</a></li>
               ))}
             </ul>
           </div>

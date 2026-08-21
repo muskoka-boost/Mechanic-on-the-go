@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import CallBar from '../components/CallBar.astro';
 import { business } from '../data/business';
 import { locations } from '../data/locations';
+import { withBase } from '../lib/paths';
 
 export interface Props {
   title: string;
@@ -18,7 +19,14 @@ export interface Props {
 
 const { title, description, canonical, schema = [], ogImage = '/images/og-default.jpg' } = Astro.props;
 
-const canonicalUrl = new URL(canonical ?? Astro.url.pathname, business.siteUrl).href;
+// Astro.site comes from astro.config.mjs, which the Pages workflow points at the
+// real deploy origin. Falls back to the configured domain for safety.
+const origin = Astro.site?.origin ?? business.siteUrl;
+/** Absolute URL for an internal path, base path included. */
+const abs = (path: string) => new URL(withBase(path), origin).href;
+
+const canonicalUrl = canonical ? abs(canonical) : new URL(Astro.url.pathname, origin).href;
+const siteRoot = abs('/');
 
 const openingHours = business.hours
   .filter((h) => h.open !== h.close)
@@ -31,13 +39,13 @@ const openingHours = business.hours
 
 const localBusiness = {
   '@type': 'AutoRepair',
-  '@id': `${business.siteUrl}/#business`,
+  '@id': `${siteRoot}#business`,
   name: business.name,
   description,
-  url: business.siteUrl,
+  url: siteRoot,
   telephone: business.phone,
   priceRange: '$$',
-  image: new URL('/images/og-default.jpg', business.siteUrl).href,
+  image: abs('/images/og-default.jpg'),
   // Service-area business: no street address is published on purpose.
   address: {
     '@type': 'PostalAddress',
@@ -80,7 +88,7 @@ const graph = [localBusiness, ...schema];
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={new URL(ogImage, business.siteUrl).href} />
+    <meta property="og:image" content={abs(ogImage)} />
     <meta property="og:locale" content="en_CA" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -89,8 +97,8 @@ const graph = [localBusiness, ...schema];
     <meta name="geo.region" content="CA-ON" />
     <meta name="geo.placename" content={business.baseCity} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

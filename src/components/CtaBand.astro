@@ -1,5 +1,6 @@
 ---
 import { business } from '../data/business';
+import { withBase } from '../lib/paths';
 export interface Props { heading?: string; text?: string; }
 const {
   heading = 'Broken down, or just out of time?',
@@ -9,7 +10,7 @@ const {
 
 <section class="cta">
   <div class="cta__bg" aria-hidden="true">
-    <img src="/images/cta.jpg" alt="" width="2000" height="900" loading="lazy" decoding="async" />
+    <img src={withBase('/images/cta.jpg')} alt="" width="2000" height="900" loading="lazy" decoding="async" />
   </div>
   <div class="wrap cta__inner">
     <h2>{heading}</h2>

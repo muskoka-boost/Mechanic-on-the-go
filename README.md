@@ -127,10 +127,71 @@ and the schema all follow automatically.
 
 ## Deploying
 
-Static output — `npm run build` produces `dist/`, which can be served by anything.
+Static output — `npm run build` produces `dist/`, which any host can serve.
+
+### GitHub Pages
+
+`.github/workflows/deploy.yml` builds the site with Astro and publishes `dist/`.
+
+**One manual step is required, and the site cannot go live without it:**
+
+> Repository **Settings → Pages → Build and deployment → Source**, change
+> **"Deploy from a branch"** to **"GitHub Actions"**.
+
+While the source is set to "Deploy from a branch", GitHub runs **Jekyll** against
+the repository source. Jekyll reads the `---` fences in `.astro` files as YAML
+front matter, chokes on the TypeScript inside them, and the deploy fails with:
+
+```
+YAML Exception reading src/pages/contact.astro
+ERROR: YOUR SITE COULD NOT BE BUILT
+```
+
+That error is Jekyll, not Astro. Switching the source to GitHub Actions takes
+Jekyll out of the loop entirely. `public/.nojekyll` is committed as belt and
+braces so Jekyll never processes the output either — without it, Jekyll strips
+Astro's `_astro/` directory and the site loads with no CSS or JS.
+
+### Base paths
+
+A GitHub Pages **project site** is served from a sub-path
+(`https://owner.github.io/Mechanic-on-the-go/`), so root-absolute links like
+`/services/` would resolve above the site root and 404.
+
+The workflow passes the real origin and base path into the build via
+`actions/configure-pages`, and every internal link and asset goes through
+`withBase()` in `src/lib/paths.ts`. Canonicals, Open Graph tags and all JSON-LD
+URLs go through `absUrl()`. `robots.txt` is generated per-build for the same
+reason.
+
+The result is one codebase that works in all three cases with no edits:
+
+| Deploy target | Base path |
+|---|---|
+| `owner.github.io/Mechanic-on-the-go/` (project site) | `/Mechanic-on-the-go` |
+| Custom domain, e.g. `mobilemechaniconthego.ca` | `/` |
+| Repo renamed to `owner.github.io` (user site) | `/` |
+
+Test the sub-path build locally exactly as CI does:
+
+```bash
+PUBLIC_SITE_URL=https://muskoka-boost.github.io \
+PUBLIC_BASE_PATH=/Mechanic-on-the-go \
+  npm run build && npm run preview
+```
+
+Both env vars must be set for `preview` too — it reads the base from
+`astro.config.mjs` at serve time, so previewing a sub-path build without them
+serves at the root and every link 404s.
+
+### Custom domain
+
+Once a domain is pointed at the repo, add it under **Settings → Pages → Custom
+domain**. `configure-pages` then reports a base path of `/`, the build switches
+automatically, and `site` in `astro.config.mjs` plus `siteUrl` in
+`src/data/business.ts` should be updated to match.
+
+### Other hosts
 
 - **Netlify / Cloudflare Pages:** build `npm run build`, publish directory `dist`.
-- **GitHub Pages:** publish `dist/` (set `site` in `astro.config.mjs` first).
-
-Update `site` in `astro.config.mjs`, `siteUrl` in `src/data/business.ts`, and the
-sitemap line in `public/robots.txt` to the final domain before the first deploy.
+  No base path needed; leave the env vars unset.
