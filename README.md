@@ -178,6 +178,19 @@ and re-run — no other changes needed.
 
 ---
 
+## Footer build credit
+
+The footer carries a "Created by Muskoka Digital Boost" line linking to
+<https://muskokadigitalboost.ca>. It is required on every site built with the
+`local-business-site` skill and must not be removed.
+
+It lives in `src/components/Footer.astro` as `.ftr__credit`, below the client's
+copyright line. Deliberately the quietest element on the page — it uses
+`--text-dim` rather than being dimmed further with opacity, because anything
+darker fails contrast against the footer background.
+
+---
+
 ## Structure
 
 ```
