@@ -20,21 +20,14 @@ const nav = [
 <header class="hdr">
   <div class="wrap hdr__inner">
     <a href={withBase('/')} class="brand" aria-label={`${business.name} — home`}>
-      <span class="brand__mark" aria-hidden="true">
-        <!-- Tyre + wrench, echoing the logo mark. Replace with the supplied
-             transparent-background logo file when it is available. -->
-        <svg viewBox="0 0 40 40" fill="none">
-          <circle cx="20" cy="20" r="15.5" stroke="currentColor" stroke-width="3.4" opacity="0.95" />
-          <circle cx="20" cy="20" r="9.5" stroke="currentColor" stroke-width="1.4" opacity="0.4" />
-          <g stroke="currentColor" stroke-width="1.6" opacity="0.55" stroke-linecap="round">
-            <path d="M20 2.6v3.4M20 34v3.4M37.4 20H34M6 20H2.6M32.3 7.7l-2.4 2.4M10.1 29.9l-2.4 2.4M32.3 32.3l-2.4-2.4M10.1 10.1 7.7 7.7" />
-          </g>
-          <path
-            d="M25.4 13.6a4.7 4.7 0 0 0-6.1 6l-5.2 5.2a1.75 1.75 0 0 0 2.5 2.5l5.2-5.2a4.7 4.7 0 0 0 6-6.1l-2.7 2.7-2.4-2.4z"
-            fill="currentColor"
-          />
-        </svg>
-      </span>
+      <img
+        class="brand__mark"
+        src={withBase('/images/logo-mark.png')}
+        alt=""
+        width="294"
+        height="256"
+        decoding="async"
+      />
       <span class="brand__text">
         <span class="brand__name">Mobile Mechanic</span>
         <span class="brand__sub">On The Go</span>
@@ -100,22 +93,19 @@ const nav = [
   .hdr__inner {
     display: flex;
     align-items: center;
-    gap: 26px;
+    gap: 22px;
     min-height: 74px;
   }
 
   .brand { display: flex; align-items: center; gap: 12px; color: var(--text); margin-right: auto; }
   .brand:hover { color: var(--text); }
+  /* The mark carries its own colour and soft shadow, so it sits directly on
+     the header rather than inside a tinted tile. */
   .brand__mark {
-    width: 40px; height: 40px;
-    display: grid; place-items: center;
-    color: var(--brand);
-    background: var(--brand-glow);
-    border: 1px solid rgba(41, 163, 224, 0.3);
-    border-radius: var(--radius);
+    width: auto;
+    height: 46px;
     flex-shrink: 0;
   }
-  .brand__mark svg { width: 27px; height: 27px; }
   .brand__text { display: flex; flex-direction: column; line-height: 1; }
   .brand__name {
     font-family: var(--font-display);
@@ -136,9 +126,10 @@ const nav = [
     margin-top: 3px;
   }
 
-  .nav { display: none; gap: 28px; }
+  .nav { display: none; gap: 24px; }
   .nav__link {
     font-family: var(--font-display);
+    white-space: nowrap;
     font-size: 1.06rem;
     font-weight: 600;
     letter-spacing: 0.09em;

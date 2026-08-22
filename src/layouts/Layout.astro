@@ -46,6 +46,7 @@ const localBusiness = {
   telephone: business.phone,
   priceRange: '$$',
   image: abs('/images/og-default.jpg'),
+  logo: abs('/images/logo.png'),
   // Service-area business: no street address is published on purpose.
   address: {
     '@type': 'PostalAddress',
@@ -97,7 +98,8 @@ const graph = [localBusiness, ...schema];
     <meta name="geo.region" content="CA-ON" />
     <meta name="geo.placename" content={business.baseCity} />
 
-    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon.png')} type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
     <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />

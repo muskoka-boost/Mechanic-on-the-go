@@ -11,6 +11,15 @@ const year = new Date().getFullYear();
   <div class="wrap">
     <div class="ftr__top">
       <div class="ftr__brand">
+        <img
+          class="ftr__logo"
+          src={withBase('/images/logo-mark.png')}
+          alt=""
+          width="294"
+          height="256"
+          loading="lazy"
+          decoding="async"
+        />
         <span class="ftr__name">{business.name}</span>
         <p class="ftr__tag">
           {hasLicence ? 'Licensed mobile' : 'Mobile'} automotive service across
@@ -73,6 +82,7 @@ const year = new Date().getFullYear();
     margin-bottom: 44px;
   }
   .ftr__brand { grid-column: 1 / -1; max-width: 420px; }
+  .ftr__logo { width: auto; height: 64px; margin-bottom: 16px; }
   .ftr__name {
     display: block;
     font-family: var(--font-display);

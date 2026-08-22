@@ -15,15 +15,15 @@ npm run preview  # serve the built site
 
 ## Before this goes live
 
-The site is complete and builds clean. The phone number and licence are
-confirmed; the remaining business facts are still **placeholders**. They all
-live in one file: `src/data/business.ts`.
+The site is complete and builds clean. The phone number is confirmed; the
+remaining business facts are still **placeholders**. They all live in one file:
+`src/data/business.ts`.
 
 | Field | Status | Notes |
 |---|---|---|
-| `phone` / `phoneHref` / `smsHref` | ✅ Set | `416-897-8653`. Drives every tap-to-call and text link on all 32 pages, plus the `telephone` field in the schema. |
+| `phone` / `phoneHref` / `smsHref` | ✅ Set | `416-897-8653`. Drives every tap-to-call and text link on all 30 pages, plus the `telephone` field in the schema. |
 | `hours` | Needs confirming | Guessed as Mon–Fri 8–6, Sat 9–4, Sun by appointment. Drives both the visible hours and the opening-hours schema. |
-| `licence` | ✅ Set | `Licensed Automotive Technician`, confirmed by the owner. Kept general on purpose — change it to the specific ticket (e.g. `310S Licensed Automotive Technician`) only if that is the licence actually held. Clearing this string hides the credentials block and reverts the footer wording automatically. |
+| `licence` | **Deliberately empty** | No licence or trade ticket is claimed anywhere on the site, on the owner's instruction. Empty hides the About credentials block and keeps the footer wording to plain "Mobile automotive service". Set it to the exact ticket held (e.g. `310S Licensed Automotive Technician`) **only** if that licence is genuinely held and the owner wants it published. |
 | `serviceRadiusKm` | Needs confirming | Currently 100 km. Shown on the hero and referenced in copy. |
 | `siteUrl` | Needs confirming | Also update `astro.config.mjs` and `public/robots.txt` to match. |
 | `email` | Empty | Leave empty to hide every email CTA. |
@@ -36,6 +36,38 @@ Search the codebase for `PLACEHOLDER` to find every one:
 ```bash
 grep -rn "PLACEHOLDER" src/ astro.config.mjs
 ```
+
+---
+
+## Services offered
+
+`src/data/services.ts` is the only list that matters. Whatever is in that array
+appears on the homepage grid, the services index, the footer column, the sitemap
+and the schema; whatever is not in it is not offered and must not be implied
+anywhere else.
+
+**Not offered, on the owner's instruction:** brake service, and steering and
+suspension work. These were removed from the site along with every piece of copy
+that advertised them — service cards, hero and meta descriptions, and the
+`commonJobs` list on all 16 town pages. The limits are now stated plainly on the
+services index, in the FAQ, on every town page and in the About values.
+
+Three consequences worth knowing before editing anything back in:
+
+1. **Four of the eight job photos are brake and suspension close-ups**
+   (`work-3`, `work-4`, `work-6`, `work-7`). The files are still in
+   `public/images/`, but they are kept out of the homepage gallery — a visitor
+   should not have to read the services list to find out the rotors in the photo
+   are not on the menu. The gallery array in `src/pages/index.astro` is the only
+   place to change that.
+2. **`about.jpg` used to be one of those close-ups.** It now shares the Ram 1500
+   driveway shot with `work-1.jpg`, framed differently. Only four of the nine
+   supplied photos are not brake or suspension detail shots, so that reuse is
+   unavoidable until there are more originals.
+3. **Pre-purchase inspections still cover brakes and suspension**, because an
+   inspection that skipped them would be worthless. Inspecting and reporting is
+   not the same as repairing, and the copy says so — most explicitly on the
+   Midland page, where corroded brake lines are the local failure mode.
 
 ---
 
@@ -105,17 +137,44 @@ re-run. No other changes needed.
 | `hero.jpg` | 16:10 | **Stock** — roadside breakdown (see `stock/LICENSE.md`) |
 | `hero-real.jpg` | 16:10 | Owner's Ram 1500 driveway shot, ready to swap back |
 | `og-default.jpg` | 1200x630 | Crop of the hero |
-| `about.jpg` | 4:3 | Rotor and hub detail |
+| `about.jpg` | 4:3 | Ram 1500 driveway shot, framed wider than `work-1.jpg` |
 | `cta.jpg` | ~20:9 | Ram 2500 in the snow |
-| `work-1` … `work-8.jpg` | 3:4 | The eight job photos |
+| `work-1` … `work-8.jpg` | 3:4 | The eight job photos. Only `work-1`, `work-2`, `work-5` and `work-8` are shown in the homepage gallery — see [Services offered](#services-offered) |
 
 ### Logo
 
-The header currently uses an inline SVG tyre-and-wrench mark that echoes the real
-logo. The supplied logo has a light silver background, which will not sit on the
-dark header. To use the real artwork, export it with a **transparent background**
-(SVG or PNG), drop it at `public/images/logo.svg`, and swap the `.brand__mark`
-block in `src/components/Header.astro` for an `<img>`.
+The supplied artwork lives at `brand/logo-source.png`. Every logo asset on the
+site is derived from it:
+
+```bash
+node scripts/make-logo.mjs
+```
+
+| Output | Used by |
+|---|---|
+| `public/images/logo-mark.png` | Header brand mark and footer — the emblem only |
+| `public/images/logo.png` | Full lockup, transparent — sharing previews, print, `logo` in the schema |
+| `public/favicon.png` | Browser tab icon |
+| `public/apple-touch-icon.png` | iOS home screen — flattened onto white, since iOS composites transparency onto black |
+
+The supplied file is a flattened render on a light silver gradient, not a
+transparent PNG, so the script keys the background out: a flood fill runs inward
+from the image border and eats every pixel that is both bright and desaturated.
+Enclosed areas — the white highlights in the tyre tread, the counters inside the
+letters — are never reached by that fill, so the mark keeps its interior detail.
+That is why the emblem sits directly on the dark header rather than inside a
+light tile.
+
+The wordmark underneath the emblem is set in near-black navy and only reads on
+light backgrounds. The header and footer therefore use the emblem on its own and
+keep "Mobile Mechanic / On The Go" as live text, which stays legible at any size
+and is selectable and searchable.
+
+**The source is only 278px on its long edge**, and the emblem within it is about
+125px. Nothing is output far above that, because upscaling further only invents
+noise. If a vector or full-resolution logo turns up, replace
+`brand/logo-source.png`, raise the `resize` heights in `scripts/make-logo.mjs`
+and re-run — no other changes needed.
 
 ---
 
@@ -125,7 +184,7 @@ block in `src/components/Header.astro` for an `<img>`.
 src/
   data/
     business.ts     ← every business fact. Single source of truth.
-    services.ts     ← 9 services. Also documents what is NOT offered.
+    services.ts     ← 7 services. Also documents what is NOT offered.
     locations.ts    ← 16 service areas with hand-written local copy.
   components/       ← Header, Footer, Hero, CallBar, CtaBand, Icon, PageHead
   layouts/
@@ -137,7 +196,7 @@ src/
     service-areas/index.astro  service-areas/[slug].astro
 ```
 
-32 pages build from these files. Adding a service or a town means adding one
+30 pages build from these files. Adding a service or a town means adding one
 object to the relevant data file — the page, the nav, the footer, the sitemap
 and the schema all follow automatically.
 

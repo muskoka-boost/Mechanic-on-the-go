@@ -27,8 +27,14 @@ const jobs = [
   { src: 'unnamed (2).jpg', out: 'cta.jpg',        w: 2000, h: 900,  blur: 1.0, crop: { top: 96, height: 125 } },
   { src: 'hero-source.jpg', dir: 'stock', out: 'og-default.jpg', w: 1200, h: 630, flop: true, grade: true },
 
-  // A tight detail shot survives upscaling far better than a wide scene.
-  { src: 'unnamed (7).jpg', out: 'about.jpg',      w: 1200, h: 900,  sharpen: true, pos: 'attention' },
+  // A tight detail shot survives upscaling far better than a wide scene, which
+  // is why this slot used to hold the rotor-and-caliper close-up in
+  // 'unnamed (7).jpg'. Brake work is no longer offered, so the About and
+  // homepage image cannot be a brake photo — it now shares the driveway shot
+  // with work-1.jpg, framed differently. Of the nine supplied photos only four
+  // are not brake or suspension close-ups, so some reuse is unavoidable until
+  // there are more originals to work from.
+  { src: 'unnamed (1).jpg', out: 'about.jpg',      w: 1200, h: 900,  sharpen: true, pos: 'attention' },
 
   // Gallery: 3:4, displayed small, so these stay near native resolution.
   { src: 'unnamed (1).jpg', out: 'work-1.jpg', w: 480, h: 640, sharpen: true },

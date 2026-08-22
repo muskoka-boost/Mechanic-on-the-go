@@ -8,12 +8,17 @@ export interface Service {
 }
 
 /**
- * PLACEHOLDER SET — tuned to what a typical mobile automotive tech can perform
- * roadside or in a driveway. The owner must confirm and strike anything they
- * do not offer. Deliberately EXCLUDED because they need a hoist, a licensed
- * safety inspection station, or shop equipment: mounting and balancing tyres onto rims,
- * MTO safety certificates, transmission rebuilds, engine replacement,
- * alignments, A/C recharge (requires certification + recovery equipment).
+ * The confirmed service list. Anything not in this array is not offered and
+ * must not be advertised anywhere else on the site.
+ *
+ * NOT OFFERED, on the owner's instruction: brake service, and steering and
+ * suspension work. Also excluded because they need a hoist, an inspection
+ * station or shop equipment: mounting and balancing tyres onto rims, MTO
+ * safety certificates, transmission rebuilds, engine replacement, wheel
+ * alignments, and A/C recharge (certification + recovery equipment).
+ *
+ * Adding a service here also adds it to the homepage grid, the services index,
+ * the footer column and the sitemap — nothing needs listing twice.
  */
 export const services: Service[] = [
   {
@@ -28,20 +33,6 @@ export const services: Service[] = [
       'Live data and freeze-frame analysis to confirm the real fault',
       'Written explanation of what failed and what it will take to fix',
       'Diagnostic fee credited toward the repair when you book the work',
-    ],
-  },
-  {
-    slug: 'brakes',
-    title: 'Brake Service',
-    short: 'Pads, rotors and calipers replaced in your driveway.',
-    icon: 'brake',
-    blurb:
-      'Brakes are the single most common mobile job, and one of the best suited to it — no hoist required, just proper jack stands, torque specs and clean workmanship. Grinding, pulsing through the pedal or a pull to one side all get sorted on site.',
-    details: [
-      'Front and rear pad and rotor replacement',
-      'Caliper, hose and hardware replacement',
-      'Brake fluid flush and bleed',
-      'Squeal, grind, pulsation and soft-pedal diagnosis',
     ],
   },
   {
@@ -68,22 +59,8 @@ export const services: Service[] = [
     details: [
       'Conventional, synthetic blend and full synthetic oil changes',
       'Manufacturer-spec filters and fluids',
-      'Coolant, brake and differential fluid service',
+      'Coolant, transmission and differential fluid service',
       'Used oil and filters removed and recycled — nothing left behind',
-    ],
-  },
-  {
-    slug: 'suspension-and-steering',
-    title: 'Suspension & Steering',
-    short: 'Clunks, wander and rough ride traced and repaired.',
-    icon: 'spring',
-    blurb:
-      'Ontario roads are hard on front ends, and Simcoe and Muskoka back roads are harder still. Worn ball joints, tie rods, sway bar links and struts get diagnosed properly rather than guessed at part by part.',
-    details: [
-      'Struts, shocks and coil springs',
-      'Ball joints, tie rod ends and control arms',
-      'Sway bar links and bushings',
-      'Wheel bearing and CV axle replacement',
     ],
   },
   {

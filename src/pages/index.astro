@@ -17,14 +17,15 @@ const steps = [
   { n: '04', t: 'Fixed where it sits', d: 'The repair happens on site. No tow bill, no shuttle ride, no three days without a vehicle.' },
 ];
 
+// work-3, work-4, work-6 and work-7 are brake and suspension shots. The files
+// are still in public/images, but they are kept out of the gallery so the site
+// never shows off work that is no longer offered — a visitor should not have to
+// read the services list to find out the rotors in the photo are not on the
+// menu. Put a line back here if that ever changes.
 const gallery = [
   { src: '/images/work-1.jpg', alt: 'Ram 1500 pickup on a snowy residential driveway with the hood up, front wheel removed and ramps and a floor jack laid out' },
-  { src: '/images/work-3.jpg', alt: 'Newly fitted wheel hub and bearing assembly on a vehicle knuckle, brake dust shield behind it' },
   { src: '/images/work-5.jpg', alt: 'Curbside wheel service on a Honda Civic, spare wheel and hand tools laid out on the road' },
-  { src: '/images/work-4.jpg', alt: 'Close-up of a new brake rotor and hub fitted to a vehicle with the caliper bracket alongside' },
   { src: '/images/work-2.jpg', alt: 'Silver Honda Civic raised on a floor jack in a driveway with the front wheel removed' },
-  { src: '/images/work-7.jpg', alt: 'Underside view of a vehicle front suspension showing the control arm, coil spring and brake rotor' },
-  { src: '/images/work-6.jpg', alt: 'Rear brake rotor and caliper bracket exposed during a brake service' },
   { src: '/images/work-8.jpg', alt: 'Ram 2500 pickup being serviced outdoors in the snow during winter' },
 ];
 
@@ -43,7 +44,7 @@ const schema = [
 
 <Layout
   title="Mobile Mechanic Orillia | We Come To You — Mobile Mechanic On The Go"
-  description="Mobile mechanic serving Orillia, Barrie, Muskoka and Georgian Bay. Diagnostics, brakes, batteries, suspension and no-start repairs at your home, work or roadside. Call for same-day service."
+  description="Mobile mechanic serving Orillia, Barrie, Muskoka and Georgian Bay. Diagnostics, batteries, no-starts, cooling, oil changes and pre-purchase inspections at your home, work or roadside. Call for same-day service."
   canonical="/"
   schema={schema}
 >
@@ -71,7 +72,7 @@ const schema = [
           </ul>
         </div>
         <figure class="split__img">
-          <img src={withBase('/images/about.jpg')} alt="Mobile mechanic servicing a vehicle on site" width="1400" height="1050" loading="lazy" decoding="async" />
+          <img src={withBase('/images/about.jpg')} alt="Ram pickup on a snowy driveway with the hood up and a front wheel removed during a mobile service call" width="1400" height="1050" loading="lazy" decoding="async" />
         </figure>
       </div>
     </div>

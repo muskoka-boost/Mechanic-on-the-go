@@ -33,10 +33,12 @@ export const business = {
   afterHours: true, // PLACEHOLDER: confirm emergency/after-hours availability
 
   yearsInBusiness: null as number | null, // PLACEHOLDER: set a number to display it
-  // Confirmed by the owner. Kept deliberately general — upgrade this string to
-  // the specific ticket (e.g. '310S Licensed Automotive Technician') only if
-  // that is the licence actually held.
-  licence: 'Licensed Automotive Technician' as string,
+  // Empty on purpose: no licence or trade ticket is claimed anywhere on the
+  // site. Leaving this blank hides the About credentials block and keeps the
+  // footer wording to plain 'Mobile automotive service'. Set it to the exact
+  // ticket held (e.g. '310S Licensed Automotive Technician') ONLY if that
+  // licence is genuinely held and the owner wants it published.
+  licence: '' as string,
 
   // Left null on purpose. Never publish a star rating you cannot verify.
   rating: null as number | null,

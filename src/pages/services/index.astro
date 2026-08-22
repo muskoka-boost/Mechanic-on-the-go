@@ -20,7 +20,7 @@ const schema = [{
 
 <Layout
   title="Mobile Mechanic Services in Orillia & Simcoe County | Mobile Mechanic On The Go"
-  description="Brakes, diagnostics, batteries, suspension, cooling, tire changeovers and pre-purchase inspections — performed at your home, workplace or roadside across Orillia, Barrie, Muskoka and Georgian Bay."
+  description="Diagnostics, batteries and no-starts, oil and fluid changes, cooling system repairs, tune-ups, tire changeovers and pre-purchase inspections — performed at your home, workplace or roadside across Orillia, Barrie, Muskoka and Georgian Bay."
   canonical="/services/"
   schema={schema}
 >
@@ -46,11 +46,16 @@ const schema = [{
       <div class="notice">
         <h3>What we do not do</h3>
         <p>
-          Being straight about the limits is part of the job. Mounting and
-          balancing tyres onto rims, MTO safety certificates, wheel alignments,
-          transmission rebuilds and engine replacement all need shop equipment or
-          a licensed inspection station. If that is what your vehicle needs, you
-          will get told so &mdash; and pointed in the right direction.
+          Being straight about the limits is part of the job. Brake work and
+          steering and suspension repairs are not offered &mdash; those are
+          safety-critical jobs and they belong with a shop set up for them.
+        </p>
+        <p>
+          Mounting and balancing tyres onto rims, MTO safety certificates, wheel
+          alignments, transmission rebuilds and engine replacement are out too:
+          they all need shop equipment or a licensed inspection station. If that
+          is what your vehicle needs, you will get told so &mdash; and pointed in
+          the right direction.
         </p>
       </div>
     </div>
@@ -89,5 +94,6 @@ const schema = [{
     max-width: 780px;
   }
   .notice h3 { color: var(--brand); font-size: 1.12rem; margin-bottom: 12px; }
-  .notice p { color: var(--text-muted); margin: 0; }
+  .notice p { color: var(--text-muted); margin: 0 0 14px; }
+  .notice p:last-child { margin-bottom: 0; }
 </style>
