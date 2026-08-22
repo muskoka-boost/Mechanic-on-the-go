@@ -55,11 +55,12 @@ services index, in the FAQ, on every town page and in the About values.
 Three consequences worth knowing before editing anything back in:
 
 1. **Four of the eight job photos are brake and suspension close-ups**
-   (`work-3`, `work-4`, `work-6`, `work-7`). The files are still in
-   `public/images/`, but they are kept out of the homepage gallery — a visitor
-   should not have to read the services list to find out the rotors in the photo
-   are not on the menu. The gallery array in `src/pages/index.astro` is the only
-   place to change that.
+   (`work-3`, `work-4`, `work-6`, `work-7`). They are not in the gallery — a
+   visitor should not have to read the services list to find out the rotors in
+   the photo are not on the menu. They are also, unhelpfully, the four sharpest
+   photos in the set. The gallery is now managed at
+   [`/admin`](#photo-manager-admin); adding one back is an upload, not a code
+   change.
 2. **`about.jpg` used to be one of those close-ups.** It now shares the Ram 1500
    driveway shot with `work-1.jpg`, framed differently. Only four of the nine
    supplied photos are not brake or suspension detail shots, so that reuse is
@@ -139,7 +140,7 @@ re-run. No other changes needed.
 | `og-default.jpg` | 1200x630 | Crop of the hero |
 | `about.jpg` | 4:3 | Ram 1500 driveway shot, framed wider than `work-1.jpg` |
 | `cta.jpg` | ~20:9 | Ram 2500 in the snow |
-| `work-1` … `work-8.jpg` | 3:4 | The eight job photos. Only `work-1`, `work-2`, `work-5` and `work-8` are shown in the homepage gallery — see [Services offered](#services-offered) |
+| `work-1` … `work-8.jpg` | 3:4 | The eight job photos. **No longer used by the site** — the gallery moved to `src/images/gallery/`, managed at [`/admin`](#photo-manager-admin). Kept as processed copies of the originals. |
 
 ### Logo
 
@@ -175,6 +176,92 @@ and is selectable and searchable.
 noise. If a vector or full-resolution logo turns up, replace
 `brand/logo-source.png`, raise the `resize` heights in `scripts/make-logo.mjs`
 and re-run — no other changes needed.
+
+---
+
+## Photo manager (`/admin`)
+
+The owner adds, removes and reorders homepage gallery photos at
+<https://muskoka-boost.github.io/Mechanic-on-the-go/admin/>. No GitHub account
+knowledge, no code, no local setup — sign in with GitHub, drag photos in, hit
+Publish. The site rebuilds and the change is live a minute or two later.
+
+### How it fits together
+
+| Piece | What it does |
+|---|---|
+| `public/admin/` | [Decap CMS](https://decapcms.org). Runs entirely in the browser. |
+| `src/data/gallery.json` | The photo list the CMS writes: path + alt text, in display order. |
+| `src/images/gallery/` | The uploaded originals. Committed to the repo. |
+| `src/lib/gallery.ts` | Resolves those paths to real images so Astro can optimise them. |
+| `oauth-worker/` | The one server-side step: swapping the OAuth code for a token. |
+
+Photos are deliberately **not** in `public/`. Anything in `public/` is copied to
+the site byte-for-byte, so a 4 MB phone photo would be served at 4 MB. From
+`src/`, Astro resizes and converts each one to WebP at build time.
+
+**Upload full-resolution originals.** The bigger the file, the sharper the
+site — the build never scales a photo up past its own resolution, precisely so
+low-resolution sources stay soft-but-clean rather than mushy. Every photo
+supplied so far is a 278px thumbnail (see [Photos](#photos)), which is the whole
+reason the gallery looks soft today. Replacing one with the original off the
+phone fixes it for that photo, with no code change.
+
+### One-time setup
+
+The CMS needs somewhere to exchange a GitHub OAuth code for an access token.
+That step needs a client secret, and a secret shipped to a browser is not a
+secret — hence `oauth-worker/`. It is free, takes about ten minutes, and is only
+done once.
+
+**1. Create a GitHub OAuth app** at
+<https://github.com/settings/developers> → *New OAuth App*:
+
+| Field | Value |
+|---|---|
+| Application name | `Mechanic photo manager` |
+| Homepage URL | `https://muskoka-boost.github.io/Mechanic-on-the-go/` |
+| Authorization callback URL | `https://YOUR-WORKER.workers.dev/callback` (fill in after step 2, then come back and edit it) |
+
+Generate a client secret and keep both values to hand. **Do not commit them.**
+
+**2. Deploy the worker** (free Cloudflare account, no card required):
+
+```bash
+cd oauth-worker
+npx wrangler login
+npx wrangler deploy                          # prints your workers.dev URL
+npx wrangler secret put GITHUB_CLIENT_ID     # paste the client ID
+npx wrangler secret put GITHUB_CLIENT_SECRET # paste the client secret
+```
+
+**3. Point the CMS at it.** In `public/admin/config.yml`, replace
+`https://REPLACE-WITH-YOUR-WORKER.workers.dev` with the URL `wrangler deploy`
+printed. Commit and push.
+
+**4. Go back to the OAuth app** and set the callback URL to
+`https://YOUR-WORKER.workers.dev/callback`.
+
+Then open `/admin/` and sign in. Anyone who can push to this repository can sign
+in; nobody else can.
+
+### If sign-in fails
+
+- **"This login could not be verified"** — cookies are blocked, or the callback
+  URL on the OAuth app does not exactly match the worker URL. Check for a typo
+  or a trailing slash.
+- **The popup opens and nothing happens** — `base_url` in `config.yml` does not
+  match the deployed worker, or the worker has no secrets set. `npx wrangler
+  tail` shows live requests.
+- **"GitHub refused to issue a token"** — the client secret is wrong or was
+  regenerated. Set it again with `wrangler secret put`.
+
+### Changing photos without the CMS
+
+`src/data/gallery.json` is a plain list. Editing it by hand, with matching files
+in `src/images/gallery/`, works exactly the same — the CMS is a nicer front end
+onto that one file, not a separate system. A photo listed there but missing from
+disk is skipped with a build warning rather than failing the build.
 
 ---
 

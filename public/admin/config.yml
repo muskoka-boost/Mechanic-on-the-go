@@ -1,0 +1,66 @@
+# Decap CMS — the photo manager at /admin.
+#
+# The site is static and hosted on GitHub Pages, so there is no server to log in
+# against. Decap talks to the GitHub API directly using a token, and the only
+# piece that cannot happen in the browser is exchanging the OAuth code for that
+# token, because it needs the client secret. `base_url` below points at a tiny
+# worker that does just that one step. See "Photo manager" in the README for how
+# to deploy it — it is about ten minutes, once, and free.
+
+backend:
+  name: github
+  repo: muskoka-boost/Mechanic-on-the-go
+  # Publishing commits here, which is the branch GitHub Pages builds from.
+  branch: claude/mobile-mechanic-website-12ihks
+  # REPLACE THIS with the deployed worker URL. No trailing slash.
+  base_url: https://REPLACE-WITH-YOUR-WORKER.workers.dev
+
+# Uploads land next to the photos already committed. Astro resizes and converts
+# them at build time, so full-resolution files straight off a phone are exactly
+# what should be uploaded here — the bigger the original, the sharper the site.
+media_folder: src/images/gallery
+public_folder: /src/images/gallery
+
+site_url: https://muskoka-boost.github.io/Mechanic-on-the-go/
+display_url: https://muskoka-boost.github.io/Mechanic-on-the-go/
+
+# Publish straight away rather than opening an editorial-workflow pull request.
+# One person managing photos does not need a review step.
+publish_mode: simple
+
+collections:
+  - name: gallery
+    label: Photo gallery
+    description: Photos shown in the "Real work, real driveways" section of the homepage.
+    files:
+      - name: photos
+        label: Homepage photos
+        file: src/data/gallery.json
+        format: json
+        description: >-
+          Add, remove and reorder the photos on the homepage. Drag a row by its
+          handle to change the order. Changes go live a minute or two after you
+          hit Publish.
+        fields:
+          - label: Photos
+            name: items
+            widget: list
+            label_singular: Photo
+            summary: '{{fields.alt}}'
+            fields:
+              - label: Photo
+                name: image
+                widget: image
+                required: true
+                hint: >-
+                  Upload the original photo straight off the phone — do not
+                  shrink it first. Large files are resized automatically and a
+                  bigger original means a sharper photo on the site.
+              - label: Description
+                name: alt
+                widget: string
+                required: true
+                hint: >-
+                  Describe what is in the photo for screen readers and search
+                  engines, e.g. "Battery replacement on a pickup in a snowy
+                  driveway". Not shown on the page.

@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "image": "/src/images/gallery/ram-1500-driveway.jpg",
+      "alt": "Ram 1500 pickup on a snowy residential driveway with the hood up, front wheel removed and ramps and a floor jack laid out"
+    },
+    {
+      "image": "/src/images/gallery/civic-curbside.jpg",
+      "alt": "Curbside wheel service on a Honda Civic, spare wheel and hand tools laid out on the road"
+    },
+    {
+      "image": "/src/images/gallery/civic-on-jack.jpg",
+      "alt": "Silver Honda Civic raised on a floor jack in a driveway with the front wheel removed"
+    },
+    {
+      "image": "/src/images/gallery/ram-2500-snow.jpg",
+      "alt": "Ram 2500 pickup being serviced outdoors in the snow during winter"
+    }
+  ]
+}

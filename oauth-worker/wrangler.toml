@@ -1,0 +1,8 @@
+# Cloudflare Worker that signs the photo manager in to GitHub.
+# Deploy with:  npx wrangler deploy
+#
+# The two secrets are set with `npx wrangler secret put NAME` and are never
+# committed to this repository.
+name = "mechanic-cms-auth"
+main = "worker.js"
+compatibility_date = "2025-01-01"

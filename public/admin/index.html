@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Keep the editor out of search results. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Photo manager — Mobile Mechanic On The Go</title>
+    <link rel="icon" href="/Mechanic-on-the-go/favicon.png" type="image/png" />
+    <style>
+      /* Shown only while the CMS bundle is loading, or if it never does. */
+      .boot {
+        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+        max-width: 34rem;
+        margin: 18vh auto 0;
+        padding: 0 1.5rem;
+        color: #24323d;
+      }
+      .boot h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
+      .boot p { margin: 0 0 0.75rem; color: #5b6b78; }
+    </style>
+  </head>
+  <body>
+    <div class="boot" id="boot">
+      <h1>Loading the photo manager…</h1>
+      <p>
+        If this message is still here after a few seconds, check your internet
+        connection and reload the page.
+      </p>
+    </div>
+
+    <script src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+    <script>
+      // The CMS replaces the whole body once it boots; this only matters if it
+      // fails to load at all.
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const boot = document.getElementById('boot');
+          if (boot && !document.querySelector('#nc-root, [class*="cms"]')) return;
+          boot?.remove();
+        }, 4000);
+      });
+    </script>
+  </body>
+</html>
