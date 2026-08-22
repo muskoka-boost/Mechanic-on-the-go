@@ -22,7 +22,7 @@ remaining business facts are still **placeholders**. They all live in one file:
 | Field | Status | Notes |
 |---|---|---|
 | `phone` / `phoneHref` / `smsHref` | ✅ Set | `416-897-8653`. Drives every tap-to-call and text link on all 30 pages, plus the `telephone` field in the schema. |
-| `hours` | Needs confirming | Guessed as Mon–Fri 8–6, Sat 9–4, Sun by appointment. Drives both the visible hours and the opening-hours schema. |
+| `hours` | ✅ Set | Confirmed by the owner: open seven days, Mon–Fri 7:00 am – 7:00 pm and Sat–Sun 7:00 am – 9:00 pm. Drives the visible hours in the footer, on the contact page and in both page sidebars, plus the opening-hours schema. |
 | `licence` | **Deliberately empty** | No licence or trade ticket is claimed anywhere on the site, on the owner's instruction. Empty hides the About credentials block and keeps the footer wording to plain "Mobile automotive service". Set it to the exact ticket held (e.g. `310S Licensed Automotive Technician`) **only** if that licence is genuinely held and the owner wants it published. |
 | `serviceRadiusKm` | Needs confirming | Currently 100 km. Shown on the hero and referenced in copy. |
 | `siteUrl` | Needs confirming | Also update `astro.config.mjs` and `public/robots.txt` to match. |

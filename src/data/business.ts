@@ -24,11 +24,14 @@ export const business = {
   // service-area profile, not a storefront address.
   serviceRadiusKm: 100, // PLACEHOLDER: confirm
 
-  // PLACEHOLDER: confirm real hours. Format is used for both display + schema.
+  // Confirmed by the owner: open seven days, 7:00 am every morning, 7:00 pm
+  // close on weekdays and 9:00 pm on weekends. One row per distinct block —
+  // `display` is the visible string, `schema` + `open`/`close` feed the
+  // opening-hours structured data. A row where `open` equals `close` is treated
+  // as "not really open" and left out of the schema entirely.
   hours: [
-    { days: 'Monday – Friday', display: '8:00 am – 6:00 pm', schema: ['Mo', 'Tu', 'We', 'Th', 'Fr'], open: '08:00', close: '18:00' },
-    { days: 'Saturday', display: '9:00 am – 4:00 pm', schema: ['Sa'], open: '09:00', close: '16:00' },
-    { days: 'Sunday', display: 'By appointment', schema: ['Su'], open: '00:00', close: '00:00' },
+    { days: 'Monday – Friday', display: '7:00 am – 7:00 pm', schema: ['Mo', 'Tu', 'We', 'Th', 'Fr'], open: '07:00', close: '19:00' },
+    { days: 'Saturday – Sunday', display: '7:00 am – 9:00 pm', schema: ['Sa', 'Su'], open: '07:00', close: '21:00' },
   ],
   afterHours: true, // PLACEHOLDER: confirm emergency/after-hours availability
 
