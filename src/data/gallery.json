@@ -1,20 +1,36 @@
 {
   "items": [
     {
-      "image": "/src/images/gallery/ram-1500-driveway.jpg",
-      "alt": "Ram 1500 pickup on a snowy residential driveway with the hood up, front wheel removed and ramps and a floor jack laid out"
+      "image": "/src/images/gallery/scan-tool-fault-codes.jpg",
+      "alt": "Diagnostic scan tool held up beside a car, showing four active engine fault codes including an oxygen sensor circuit and a coolant temperature sensor"
     },
     {
-      "image": "/src/images/gallery/civic-curbside.jpg",
-      "alt": "Curbside wheel service on a Honda Civic, spare wheel and hand tools laid out on the road"
+      "image": "/src/images/gallery/battery-replacement.jpg",
+      "alt": "New battery fitted in an engine bay with the terminals being connected during an on-site replacement"
     },
     {
-      "image": "/src/images/gallery/civic-on-jack.jpg",
-      "alt": "Silver Honda Civic raised on a floor jack in a driveway with the front wheel removed"
+      "image": "/src/images/gallery/spark-plugs.jpg",
+      "alt": "Four used spark plugs held in one hand after removal, ready to be compared against new ones"
     },
     {
-      "image": "/src/images/gallery/ram-2500-snow.jpg",
-      "alt": "Ram 2500 pickup being serviced outdoors in the snow during winter"
+      "image": "/src/images/gallery/tyre-tread-check.jpg",
+      "alt": "Tyre tread being checked by hand at the roadside with a cordless tool and tyre plug kit alongside"
+    },
+    {
+      "image": "/src/images/gallery/jump-pack-no-start.jpg",
+      "alt": "Lithium jump pack held inside a car during a no-start call, dashboard visible through the windscreen"
+    },
+    {
+      "image": "/src/images/gallery/pressure-test-gauge.jpg",
+      "alt": "Pressure test gauge held against an engine, reading in both bar and psi during a fault diagnosis"
+    },
+    {
+      "image": "/src/images/gallery/relay-testing.jpg",
+      "alt": "Twelve-volt relay held in hand after being pulled from a vehicle fuse box for testing"
+    },
+    {
+      "image": "/src/images/gallery/engine-bay-service.jpg",
+      "alt": "Open engine bay during a driveway service call, coolant reservoir and battery accessible from above"
     }
   ]
 }

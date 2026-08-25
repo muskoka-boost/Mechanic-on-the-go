@@ -2,10 +2,19 @@
  * Crops, resizes and compresses the originals in photos-inbox/ into the exact
  * slots the site expects in public/images/.
  *
- * Source photos are currently 278px Google Business Profile thumbnails, so the
- * output targets are deliberately modest — upscaling past what the source
- * carries just makes a bigger, blurrier file. When full-resolution originals
- * land, raise the `w`/`h` values here and re-run; nothing else needs to change.
+ * Two generations of source photo live in photos-inbox/ side by side:
+ *
+ *   unnamed*.{jpg,png}        278px Google Business Profile thumbnails. Nothing
+ *                             recovers detail these never had, so the slots
+ *                             still fed by them stay modest on purpose.
+ *   Messenger_creation_*.jpeg Real originals, 1536x2048 and 2048x1536. Roughly
+ *                             seven times the linear resolution, so slots fed
+ *                             by these carry a full-size render with no blur or
+ *                             sharpening crutch.
+ *
+ * The homepage gallery is no longer processed here at all — it moved to
+ * src/images/gallery/, where Astro optimises it at build time and the owner
+ * manages it from /admin. See "Photo manager" in the README.
  */
 import sharp from 'sharp';
 import { mkdir } from 'node:fs/promises';
@@ -24,27 +33,17 @@ const jobs = [
 
   // The owner's real driveway shot, kept processed and ready to swap in.
   { src: 'unnamed (1).jpg', out: 'hero-real.jpg',  w: 2000, h: 1250, blur: 1.0, crop: { top: 58, height: 174 } },
-  { src: 'unnamed (2).jpg', out: 'cta.jpg',        w: 2000, h: 900,  blur: 1.0, crop: { top: 96, height: 125 } },
+  // CTA band: now a real 2048x1536 original, so it needs no blur to hide
+  // upscaling — it is a genuine downscale.
+  { src: 'Messenger_creation_875675EB-A4E4-46D6-B4CC-14CCBEE1FDE2.jpeg', out: 'cta.jpg', w: 2000, h: 900, pos: 'centre' },
   { src: 'hero-source.jpg', dir: 'stock', out: 'og-default.jpg', w: 1200, h: 630, flop: true, grade: true },
 
-  // A tight detail shot survives upscaling far better than a wide scene, which
-  // is why this slot used to hold the rotor-and-caliper close-up in
-  // 'unnamed (7).jpg'. Brake work is no longer offered, so the About and
-  // homepage image cannot be a brake photo — it now shares the driveway shot
-  // with work-1.jpg, framed differently. Of the nine supplied photos only four
-  // are not brake or suspension close-ups, so some reuse is unavoidable until
-  // there are more originals to work from.
-  { src: 'unnamed (1).jpg', out: 'about.jpg',      w: 1200, h: 900,  sharpen: true, pos: 'attention' },
+  // About + homepage "why mobile" image. Held-in-hand scan tool part way
+  // through a 22-module scan: it shows the diagnostic claim the copy makes
+  // rather than asserting it, and at 1536x2048 a 4:3 crop is still a downscale.
+  // No sharpening — that was only ever propping up the 278px sources.
+  { src: 'Messenger_creation_5494609A-E30D-44E3-8442-665B00BD12CF.jpeg', out: 'about.jpg', w: 1200, h: 900, pos: 'centre' },
 
-  // Gallery: 3:4, displayed small, so these stay near native resolution.
-  { src: 'unnamed (1).jpg', out: 'work-1.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed (5).jpg', out: 'work-2.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed (4).jpg', out: 'work-3.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed (7).jpg', out: 'work-4.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed (3).jpg', out: 'work-5.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed (6).jpg', out: 'work-6.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed.jpg',     out: 'work-7.jpg', w: 480, h: 640, sharpen: true },
-  { src: 'unnamed (2).jpg', out: 'work-8.jpg', w: 480, h: 640, sharpen: true },
 ];
 
 await mkdir('public/images', { recursive: true });

@@ -74,73 +74,67 @@ Three consequences worth knowing before editing anything back in:
 
 ## Photos
 
-`public/images/` is generated from the originals in `photos-inbox/` by:
+Images reach the site two ways. The homepage gallery is managed at
+[`/admin`](#photo-manager-admin) and optimised by Astro at build time. The four
+fixed slots — hero, OG image, About and CTA — are generated into
+`public/images/` from `photos-inbox/` by `scripts/process-photos.mjs`.
+
+### Photo sources
+
+`photos-inbox/` holds two generations of original, and which one a slot uses
+decides how sharp it looks:
+
+| Files | Resolution | Used by |
+|---|---|---|
+| `Messenger_creation_*.jpeg` (37) | 1536x2048 / 2048x1536 | The gallery, `about.jpg`, `cta.jpg` |
+| `unnamed*.{jpg,png}` (9) | **278px** | `hero-real.jpg` only |
+
+The `unnamed*` files are Google Business Profile thumbnails — 278px on the long
+edge, against roughly 2000px for a full-bleed hero. Nothing recovers detail they
+never had. The old pipeline upscaled them to 480x640 and sharpened the result,
+which is what made the site look soft: sharpening an upscale manufactures
+artefacts, not detail. Every slot that matters has since moved to the real
+originals.
+
+**The hero is the one still on stock.** Not for want of resolution now, but
+because none of the 37 originals is a wide scene — they are all close-up detail
+shots of the work itself, which is exactly right for the gallery and wrong for a
+full-bleed background behind a headline. One good landscape photo of a vehicle
+being worked on in a driveway would replace it:
+
+```js
+// scripts/process-photos.mjs — restore a real photo as the hero
+{ src: 'YOUR-PHOTO.jpeg', out: 'hero.jpg', w: 2000, h: 1250, pos: 'centre' },
+```
+
+Stock imagery works against the whole argument this site makes — that a real
+person turns up in your driveway — so it is a stopgap, not a decision.
+
+### Adding more photos
+
+Gallery photos go through [`/admin`](#photo-manager-admin), not through this
+script. `scripts/process-photos.mjs` now owns only the four fixed slots below;
+run it after changing a `src` there:
 
 ```bash
 node scripts/process-photos.mjs
 ```
 
-That script owns the crop, resize and compression for every slot. To change
-which photo goes where, edit the `jobs` array in it and re-run — do not edit
-files in `public/images/` by hand, they get overwritten.
-
-### ⚠️ Current photos are low resolution
-
-The uploaded photos are Google Business Profile **thumbnails**, not originals.
-Every one is **278px** on its long edge. The site needs roughly 2000px for the
-hero.
-
-Consequences, all currently worked around rather than solved:
-
-- **The hero is stock**, because 278px will not carry a full-bleed image at any
-  quality. See `stock/LICENSE.md`. The owner's own driveway shot is processed
-  and waiting at `public/images/hero-real.jpg`.
-- Gallery output is capped at 480x640. It looks fine, because those tiles are
-  displayed small — this is the one slot the thumbnails genuinely suit.
-- `about.jpg` and `cta.jpg` are still the owner's photos, upscaled. They sit
-  behind text or at smaller sizes, so they hold up.
-
-**The stock hero is a stopgap, not a decision.** A generic stock car is the
-weakest possible hero for a local trade business — the entire argument this site
-makes is that a real person turns up in your driveway, and stock photography
-works against that. Swap it the moment a real full-resolution photo exists:
-
-```js
-// scripts/process-photos.mjs — restore the owner's photo as the hero
-{ src: 'unnamed (1).jpg', out: 'hero.jpg', w: 2000, h: 1250, crop: { top: 58, height: 174 } },
-```
-
-### Getting the full-resolution originals
-
-Best to worst:
-
-1. **Straight off the phone that took them.** The originals will be 3000-4000px.
-   This is the real fix.
-2. **Google Photos**, if the phone backs up there — download the original size,
-   not a share link.
-3. **Resize the Google URL.** Google serves these from `lh3.googleusercontent.com`
-   with the size baked into the URL as a suffix like `=w278-h278-k-no`. Open the
-   photo on the Business Profile, copy the image address, and replace that
-   suffix with `=s0` for the original, or `=w2048` for something large:
-
-   ```
-   ...=w278-h278-k-no   ->   ...=s0
-   ```
-
-Once better originals are in `photos-inbox/`, raise the output sizes in
-`scripts/process-photos.mjs`, drop the mobile blur block from `Hero.astro`, and
-re-run. No other changes needed.
+Do not edit files in `public/images/` by hand — they get overwritten.
 
 ### Slot reference
 
 | File | Ratio | Currently |
 |---|---|---|
 | `hero.jpg` | 16:10 | **Stock** — roadside breakdown (see `stock/LICENSE.md`) |
-| `hero-real.jpg` | 16:10 | Owner's Ram 1500 driveway shot, ready to swap back |
+| `hero-real.jpg` | 16:10 | The 278px driveway shot, kept processed and ready to swap in |
 | `og-default.jpg` | 1200x630 | Crop of the hero |
-| `about.jpg` | 4:3 | Ram 1500 driveway shot, framed wider than `work-1.jpg` |
-| `cta.jpg` | ~20:9 | Ram 2500 in the snow |
-| `work-1` … `work-8.jpg` | 3:4 | The eight job photos. **No longer used by the site** — the gallery moved to `src/images/gallery/`, managed at [`/admin`](#photo-manager-admin). Kept as processed copies of the originals. |
+| `about.jpg` | 4:3 | Scan tool mid multi-module scan — full resolution |
+| `cta.jpg` | ~20:9 | Engine bay detail behind the CTA scrim — full resolution |
+
+The homepage gallery is **not** in this table. It lives in
+`src/images/gallery/`, is optimised by Astro rather than by this script, and is
+managed at [`/admin`](#photo-manager-admin).
 
 ### Logo
 
