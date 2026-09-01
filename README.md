@@ -25,7 +25,7 @@ remaining business facts are still **placeholders**. They all live in one file:
 | `hours` | ✅ Set | Confirmed by the owner: open seven days, Mon–Fri 7:00 am – 7:00 pm and Sat–Sun 7:00 am – 9:00 pm. Drives the visible hours in the footer, on the contact page and in both page sidebars, plus the opening-hours schema. |
 | `licence` | **Deliberately empty** | No licence or trade ticket is claimed anywhere on the site, on the owner's instruction. Empty hides the About credentials block and keeps the footer wording to plain "Mobile automotive service". Set it to the exact ticket held (e.g. `310S Licensed Automotive Technician`) **only** if that licence is genuinely held and the owner wants it published. |
 | `serviceRadiusKm` | Needs confirming | Currently 100 km. Shown on the hero and referenced in copy. |
-| `siteUrl` | Needs confirming | Also update `astro.config.mjs` and `public/robots.txt` to match. |
+| `siteUrl` | ✅ Set | `https://onthegomechanic.ca` on the domain branch — see [Going live](#going-live-on-onthegomechanicca). `robots.txt` and the sitemap are generated from the real origin, so they follow automatically. |
 | `email` | Empty | Leave empty to hide every email CTA. |
 | `yearsInBusiness` | Empty | Set a number to display it. |
 | `rating` / `reviewCount` | **Deliberately null** | Never publish a star rating that cannot be verified against the real Google profile. Google penalises self-serving review markup. |
@@ -317,6 +317,84 @@ and the schema all follow automatically.
 5. Make sure the phone number on the site matches the Google Business Profile
    exactly. Mismatched NAP (name, address, phone) across listings is one of the
    most common causes of weak local ranking.
+
+---
+
+## Going live on onthegomechanic.ca
+
+This branch (`claude/onthegomechanic-domain`) is the custom-domain cutover. It
+is deliberately **not** merged, because `public/CNAME` takes effect the moment
+it deploys: GitHub Pages then redirects
+`muskoka-boost.github.io/Mechanic-on-the-go/` to `onthegomechanic.ca`, and if
+DNS is not answering yet the site is simply unreachable. **Do the DNS first.**
+
+Almost nothing in the codebase needed changing. `actions/configure-pages`
+reports the custom domain as the origin and an empty base path once Pages is
+configured, and `withBase()` already collapses to a no-op at a domain root — the
+same build serves correctly from either place. This branch only changes the
+things that name the domain explicitly:
+
+| File | Change |
+|---|---|
+| `public/CNAME` | New. The domain, which is what tells Pages to serve it. |
+| `astro.config.mjs` | Fallback origin for builds without the Pages env. |
+| `src/data/business.ts` | `siteUrl`, the fallback behind every canonical and JSON-LD URL. |
+| `public/admin/config.yml` | `site_url` / `display_url` for the CMS preview links. |
+| `public/admin/index.html` | Favicon path made relative so it works at either root. |
+| `oauth-worker/worker.js` | Accepts both origins, so CMS sign-in survives the cutover. |
+
+### 1. DNS, at the registrar
+
+For the apex domain, four `A` records:
+
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+Optionally the same four as `AAAA` records for IPv6:
+
+```
+2606:50c0:8000::153   2606:50c0:8001::153
+2606:50c0:8002::153   2606:50c0:8003::153
+```
+
+And `www` as a `CNAME` to `muskoka-boost.github.io` so both spellings work.
+
+These are GitHub's published Pages addresses — worth confirming against
+<https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site>
+rather than trusting this table, since they do change occasionally. Allow up to
+an hour for propagation; `dig onthegomechanic.ca +short` should return those
+four addresses before continuing.
+
+### 2. Merge and deploy
+
+Merge this branch into `claude/mobile-mechanic-website-12ihks`. The push
+triggers the usual build.
+
+### 3. Point Pages at the domain
+
+**Settings → Pages → Custom domain**, enter `onthegomechanic.ca`, save. GitHub
+re-checks DNS; once it passes, tick **Enforce HTTPS**. The certificate is issued
+automatically and usually takes a few minutes, occasionally up to 24 hours — the
+box stays greyed out until it is ready, which is normal and not a fault.
+
+### 4. Follow-ups once it resolves
+
+- **GitHub OAuth app** (<https://github.com/settings/developers>): set Homepage
+  URL to `https://onthegomechanic.ca/`. The callback URL stays pointed at the
+  worker and must not change.
+- **`oauth-worker/worker.js`**: once the github.io URL is genuinely unused, drop
+  it from `ALLOWED_ORIGINS` and redeploy, so exactly one origin can receive a
+  token.
+- **Google Business Profile**: set the website field to the new domain. It is
+  the single strongest local-SEO signal on the profile.
+- Anywhere the old URL was shared will redirect rather than break, but is worth
+  updating.
+
+---
 
 ## Deploying
 

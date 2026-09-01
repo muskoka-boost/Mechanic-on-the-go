@@ -53,7 +53,7 @@ export const business = {
     instagram: '', // PLACEHOLDER
   },
 
-  siteUrl: 'https://mobilemechaniconthego.ca', // PLACEHOLDER: confirm domain
+  siteUrl: 'https://onthegomechanic.ca', // Live domain. Also set in astro.config.mjs and public/CNAME.
 } as const;
 
 export const hasEmail = business.email.length > 0;

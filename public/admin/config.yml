@@ -21,8 +21,8 @@ backend:
 media_folder: src/images/gallery
 public_folder: /src/images/gallery
 
-site_url: https://muskoka-boost.github.io/Mechanic-on-the-go/
-display_url: https://muskoka-boost.github.io/Mechanic-on-the-go/
+site_url: https://onthegomechanic.ca/
+display_url: https://onthegomechanic.ca/
 
 # Publish straight away rather than opening an editorial-workflow pull request.
 # One person managing photos does not need a review step.

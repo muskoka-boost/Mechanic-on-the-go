@@ -17,8 +17,17 @@
  * Required secrets: GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
  */
 
-/** Only this origin may receive a token, so a copied link cannot harvest one. */
-const ALLOWED_ORIGIN = 'https://muskoka-boost.github.io';
+/**
+ * Only these origins may receive a token, so a copied callback link cannot
+ * harvest one. Both are listed so the cutover to the custom domain needs no
+ * redeploy: the popup offers the handshake to each, and replies only to the
+ * origin that actually answers. Drop the github.io entry once the domain is
+ * live and the old URL is no longer used.
+ */
+const ALLOWED_ORIGINS = [
+  'https://onthegomechanic.ca',
+  'https://muskoka-boost.github.io',
+];
 
 const html = (body, status = 200) =>
   new Response(`<!doctype html><meta charset="utf-8">${body}`, {
@@ -102,14 +111,19 @@ export default {
 <script>
   (function () {
     var payload = ${JSON.stringify(payload)};
-    var target = ${JSON.stringify(ALLOWED_ORIGIN)};
+    var allowed = ${JSON.stringify(ALLOWED_ORIGINS)};
     function handshake(event) {
-      if (event.origin !== target) return;
-      window.opener.postMessage('authorization:github:success:' + payload, target);
+      // Reply only to an origin on the list, and only to the one that answered
+      // — never to '*', which would hand the token to any page that opened us.
+      if (allowed.indexOf(event.origin) === -1) return;
+      window.opener.postMessage('authorization:github:success:' + payload, event.origin);
       window.removeEventListener('message', handshake, false);
     }
     window.addEventListener('message', handshake, false);
-    window.opener.postMessage('authorizing:github', target);
+    // The CMS is on exactly one of these; the others simply never answer.
+    allowed.forEach(function (origin) {
+      window.opener.postMessage('authorizing:github', origin);
+    });
   })();
 </script>`,
         200,
