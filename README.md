@@ -266,9 +266,10 @@ The footer carries a "Created by Muskoka Digital Boost" line linking to
 `local-business-site` skill and must not be removed.
 
 It lives in `src/components/Footer.astro` as `.ftr__credit`, below the client's
-copyright line. Deliberately the quietest element on the page — it uses
-`--text-dim` rather than being dimmed further with opacity, because anything
-darker fails contrast against the footer background.
+copyright line. Quieter than the copyright above it, but not invisible: it was
+first set on `--text-dim`, which measures 3.13:1 against the footer and vanished
+at that size. It now uses `--text-muted` (5.73:1) with the brand blue on the
+link (6.49:1), both clear of the 4.5:1 AA floor.
 
 ---
 

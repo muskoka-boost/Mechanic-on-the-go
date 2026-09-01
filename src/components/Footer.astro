@@ -128,21 +128,21 @@ const year = new Date().getFullYear();
   .ftr__links { display: flex; flex-wrap: wrap; gap: 20px; }
   .ftr__links a { color: var(--text-dim); }
 
-  /* Build credit. Deliberately the quietest thing on the page — it sits below
-     the client's own copyright line and must never compete with it. Kept on
-     --text-dim rather than dimmed further with opacity, because anything
-     darker than this token fails contrast against the footer background. */
+  /* Build credit. Quieter than the client's own copyright line above it, but
+     it still has to be readable: --text-dim measures 3.13:1 against this
+     footer, under the 4.5:1 AA floor, and at this size it simply disappeared.
+     --text-muted is 5.73:1 and the brand blue on the link is 6.49:1. */
   .ftr__credit {
-    margin: 20px 0 0;
-    font-size: 0.78rem;
-    color: var(--text-dim);
+    margin: 18px 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
   }
   .ftr__credit a {
-    color: var(--text-muted);
+    color: var(--brand);
     text-decoration: underline;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
   }
-  .ftr__credit a:hover { color: var(--brand); }
+  .ftr__credit a:hover { color: var(--white); }
   .ftr__links a:hover { color: var(--white); }
 
   @media (min-width: 861px) {
