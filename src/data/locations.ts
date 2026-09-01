@@ -119,7 +119,7 @@ export const locations: Location[] = [
       'Midland sits on Georgian Bay, and bay air plus road salt is about the harshest combination an Ontario vehicle can be asked to live in.',
     body: [
       'Corrosion is the defining problem here. Fuel lines, exhaust hangers, cooling pipes, subframe mounts and every fastener underneath give up earlier in Midland than they do inland. A bolt that turns easily on a Barrie car can shear clean off on a Midland one, and that changes how a job has to be approached.',
-      'That is worth knowing before a repair starts rather than halfway through. Inspections here pay particular attention to hard lines and underbody structure. Brake work is not something offered here, so where a corroded brake line turns up you get told plainly and in writing, in time to get it to a shop before it lets go.',
+      'That is worth knowing before a repair starts rather than halfway through. Inspections here pay particular attention to hard lines and underbody structure, because a corroded hard line gives very little warning before it lets go — and finding one early is the difference between a planned repair and a bad surprise.',
       'Work happens throughout Midland — near the harbour, up around the hospital, and out along the Highway 12 and 93 approaches.',
     ],
     landmarks: ['Midland harbour', 'Highway 12 & 93 approaches', 'Georgian Bay General Hospital', 'Sainte-Marie among the Hurons'],

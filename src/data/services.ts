@@ -8,14 +8,20 @@ export interface Service {
 }
 
 /**
- * The confirmed service list. Anything not in this array is not offered and
- * must not be advertised anywhere else on the site.
+ * The advertised service list. Anything not in this array is not promoted
+ * anywhere on the site.
  *
- * NOT OFFERED, on the owner's instruction: brake service, and steering and
- * suspension work. Also excluded because they need a hoist, an inspection
- * station or shop equipment: mounting and balancing tyres onto rims, MTO
- * safety certificates, transmission rebuilds, engine replacement, wheel
- * alignments, and A/C recharge (certification + recovery equipment).
+ * NOT THE SAME AS "not offered". Brake work and steering and suspension work
+ * ARE done — they are left off deliberately, on the owner's instruction,
+ * because he would rather field those questions in person than advertise them.
+ * Do not "helpfully" add them back, and do not write copy anywhere saying they
+ * are unavailable: that would be untrue.
+ *
+ * Genuinely NOT possible, because they need a hoist, an inspection station or
+ * shop equipment: mounting and balancing tyres onto rims, MTO safety
+ * certificates, transmission rebuilds, engine replacement, wheel alignments,
+ * and A/C recharge (certification + recovery equipment). Those limits are
+ * stated on the services index and in the FAQ.
  *
  * Adding a service here also adds it to the homepage grid, the services index,
  * the footer column and the sitemap — nothing needs listing twice.
@@ -32,7 +38,6 @@ export const services: Service[] = [
       'Full multi-module scan, not just a generic OBD-II code pull',
       'Live data and freeze-frame analysis to confirm the real fault',
       'Written explanation of what failed and what it will take to fix',
-      'Diagnostic fee credited toward the repair when you book the work',
     ],
   },
   {
@@ -55,12 +60,12 @@ export const services: Service[] = [
     short: 'Scheduled maintenance without giving up your morning.',
     icon: 'droplet',
     blurb:
-      'The job that costs you two hours of sitting in a waiting room takes none of your time when it happens in your own driveway while you work. Full synthetic, correct filter, correct spec, and all used oil hauled away for proper recycling.',
+      'The job that costs you two hours of sitting in a waiting room takes none of your time when it happens in your own driveway while you work. Full synthetic, correct filter, correct spec.',
     details: [
       'Conventional, synthetic blend and full synthetic oil changes',
       'Manufacturer-spec filters and fluids',
       'Coolant, transmission and differential fluid service',
-      'Used oil and filters removed and recycled — nothing left behind',
+      'Old parts and used oil can go with the van if you want them gone — just say so on the day',
     ],
   },
   {

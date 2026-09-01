@@ -46,11 +46,13 @@ appears on the homepage grid, the services index, the footer column, the sitemap
 and the schema; whatever is not in it is not offered and must not be implied
 anywhere else.
 
-**Not offered, on the owner's instruction:** brake service, and steering and
-suspension work. These were removed from the site along with every piece of copy
-that advertised them — service cards, hero and meta descriptions, and the
-`commonJobs` list on all 16 town pages. The limits are now stated plainly on the
-services index, in the FAQ, on every town page and in the About values.
+**Deliberately not advertised:** brake work, and steering and suspension work.
+These are **done** — they are simply left off the site, on the owner's
+instruction, because he would rather answer those questions in person. Every
+piece of copy promoting them was removed (service cards, hero and meta
+descriptions, the `commonJobs` list on all 16 town pages), and so was every
+piece of copy claiming they are *unavailable* — that would be untrue. Do not
+add either back.
 
 Three consequences worth knowing before editing anything back in:
 
