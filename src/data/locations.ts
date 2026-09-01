@@ -155,7 +155,7 @@ export const locations: Location[] = [
       'Severn wraps around the north end of Orillia, which makes it one of the quickest areas to reach and one of the easiest to book.',
     body: [
       'The township covers a lot of ground — Coldwater, Washago, Port Severn and the concessions in between — and much of it is rural road rather than city street. Gravel, frost heave and long driveways add up to exhaust, underbody and filter wear that a purely urban vehicle never sees.',
-      'Rural also means distance from help. When a vehicle will not start at the end of a long driveway off a concession road, a tow is both slow and costly. On-site diagnosis usually settles it in a single visit.',
+      'Rural also means distance from help. When a vehicle will not start at the end of a long driveway off a concession road, a tow is both slow and costly. Diagnosing it where it sits usually gets to the cause without the vehicle moving at all.',
       'Because Severn borders Orillia directly, there is no meaningful travel premium and same-week scheduling is normally straightforward.',
     ],
     landmarks: ['Coldwater', 'Washago', 'Port Severn', 'Severn Bridge', 'Highway 400 & 11 corridors'],
