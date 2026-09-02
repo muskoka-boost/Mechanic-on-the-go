@@ -263,9 +263,10 @@ disk is skipped with a build warning rather than failing the build.
 
 ## Footer build credit
 
-The footer carries a "Created by Muskoka Digital Boost" line linking to
-<https://muskokadigitalboost.ca>. It is required on every site built with the
-`local-business-site` skill and must not be removed.
+The footer carries a "made by muskokadigitalboost.ca" line linking to
+<https://muskokadigitalboost.ca>. The owner asked for this exact wording, with
+the domain visible as the link text. It is required on every site built with
+the `local-business-site` skill and must not be removed.
 
 It lives in `src/components/Footer.astro` as `.ftr__credit`, below the client's
 copyright line. Quieter than the copyright above it, but not invisible: it was
