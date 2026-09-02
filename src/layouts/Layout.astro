@@ -134,8 +134,7 @@ const graph = [localBusiness, ...schema];
     font-weight: 700;
   }
   .skip:focus { left: 0; }
-  main { padding-bottom: 76px; }
-  @media (min-width: 861px) {
-    main { padding-bottom: 0; }
-  }
+  /* The fixed mobile call bar's clearance lives on the footer, not here:
+     padding main left the bar covering the footer's last line — the
+     Muskoka Digital Boost credit. */
 </style>

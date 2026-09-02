@@ -145,6 +145,12 @@ const year = new Date().getFullYear();
   .ftr__credit a:hover { color: var(--white); }
   .ftr__links a:hover { color: var(--white); }
 
+  /* Below 861px the fixed call bar overlays the bottom of the page; without
+     this clearance it sits on top of the build credit above. */
+  @media (max-width: 860px) {
+    .ftr { padding-bottom: calc(34px + 76px + env(safe-area-inset-bottom)); }
+  }
+
   @media (min-width: 861px) {
     .ftr__brand { grid-column: span 2; }
   }
