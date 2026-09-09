@@ -17,11 +17,16 @@ export interface Service {
  * Do not "helpfully" add them back, and do not write copy anywhere saying they
  * are unavailable: that would be untrue.
  *
- * Genuinely NOT possible, because they need a hoist, an inspection station or
- * shop equipment: mounting and balancing tyres onto rims, MTO safety
- * certificates, transmission rebuilds, engine replacement, wheel alignments,
- * and A/C recharge (certification + recovery equipment). Those limits are
- * stated on the services index and in the FAQ.
+ * Genuinely NOT possible, because they need a hoist or shop equipment:
+ * mounting and balancing tyres onto rims, transmission rebuilds, engine
+ * replacement, and A/C recharge (certification + recovery equipment). Those
+ * limits are stated on the services index and in the FAQ.
+ *
+ * MTO safety certificates and wheel alignments were on that list and were
+ * removed on the owner's instruction. Treat them like brakes and suspension:
+ * do not advertise them, and do not write copy anywhere saying they are
+ * unavailable. That includes the indirect phrasings — "an alignment rack" and
+ * "a licensed inspection station" are these two by another name.
  *
  * Adding a service here also adds it to the homepage grid, the services index,
  * the footer column and the sitemap — nothing needs listing twice.
