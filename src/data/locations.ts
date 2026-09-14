@@ -136,7 +136,7 @@ export const locations: Location[] = [
     lead:
       'Penetanguishene shares Midland’s salt-and-bay-air problem, with the added wrinkle of a lot of vehicles that only work part of the year.',
     body: [
-      'Between the harbour, the seasonal population and the boats, a good number of Penetanguishene vehicles spend months parked. Sitting is genuinely hard on a car — batteries sulphate, fuel goes stale, coolant sits unturned and tyres take a set. The first drive of the season is when all of it announces itself at once.',
+      'Between the harbour, the seasonal population and the boats, a good number of Penetanguishene vehicles spend months parked. Sitting is genuinely hard on a car — batteries sulphate, fuel goes stale, coolant sits unturned and tires take a set. The first drive of the season is when all of it announces itself at once.',
       'Trucks that launch and haul boats get the opposite problem: cooling systems asked to work flat out at the ramp on the hottest weekend of the year, and charging systems running trailer lights on top of everything else.',
       'Both are far better dealt with before the season than during it. A pre-season check in the driveway costs a fraction of a bad Saturday at the launch.',
     ],
@@ -244,7 +244,7 @@ export const locations: Location[] = [
     lead:
       'Innisfil is commuter country. Alcona, Lefroy and Stroud send a lot of vehicles down the 400 every single morning.',
     body: [
-      'Long daily highway runs are the defining factor here. High-mileage vehicles burn through fluid intervals and tyre life fast, and because the driving is mostly steady highway, problems tend to announce themselves as a noise, a smell or a warning light rather than as anything dramatic.',
+      'Long daily highway runs are the defining factor here. High-mileage vehicles burn through fluid intervals and tire life fast, and because the driving is mostly steady highway, problems tend to announce themselves as a noise, a smell or a warning light rather than as anything dramatic.',
       'Commuting also makes shop visits genuinely painful. If your car is the only way you get to work, a two-day shop booking is a real logistical problem — which is precisely why overnight and driveway service suits this area so well.',
       'Innisfil is at the southern edge of the service radius, so it works best booked ahead rather than called in the same morning.',
     ],

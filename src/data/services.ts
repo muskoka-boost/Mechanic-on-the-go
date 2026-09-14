@@ -18,7 +18,7 @@ export interface Service {
  * are unavailable: that would be untrue.
  *
  * Genuinely NOT possible, because they need a hoist or shop equipment:
- * mounting and balancing tyres onto rims, transmission rebuilds, engine
+ * mounting and balancing tires onto rims, transmission rebuilds, engine
  * replacement, and A/C recharge (certification + recovery equipment). Those
  * limits are stated on the services index and in the FAQ.
  *
@@ -95,7 +95,7 @@ export const services: Service[] = [
     blurb:
       'Every October and April the shops book up three weeks deep and charge you an afternoon of your life. If your winters are already mounted on their own rims, the swap happens in your driveway in under an hour while you carry on with your day.',
     details: [
-      'Swap-over of tyres already mounted on separate rims',
+      'Swap-over of tires already mounted on separate rims',
       'Torqued to manufacturer spec with a calibrated torque wrench — never an impact gun alone',
       'TPMS sensor check and reset where equipped',
       'Tread depth, wear pattern and pressure check on all four before they go back on',
